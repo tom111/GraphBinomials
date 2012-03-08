@@ -38,7 +38,7 @@ class GraphOnMonomials (Graph):
 
 numvars=32
 degree=4
-vertices=IntegerVectors(degree, numvars).list()
+vertices=[Sequence(v, immutable=True) for v in IntegerVectors(degree, numvars).list()]
 baseEdges=[
 [[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0]],
 [[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]],
@@ -123,18 +123,17 @@ baseEdges=[
 
 def addIntVector (v1,v2):
     # Not length-safe
-    return [v1[i] + v2[i] for i in range (len(v1))]
+    return Sequence([v1[i] + v2[i] for i in range (len(v1))], immutable=True)
 
 def subtractIntVector (v1,v2):
     # Not length-safe
-    return [v1[i] - v2[i] for i in range (len(v1))]
+    return Sequence([v1[i] - v2[i] for i in range (len(v1))], immutable=True)
 
 def sameIntVector (v1,v2):
     for i in range(len(v1)):
         if not v1[i] == v2[i]:
             return False
     return True
-
 
 moves=[subtractIntVector (b[0],b[1]) for b in baseEdges]
 
