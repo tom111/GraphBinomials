@@ -10,3 +10,9 @@ K23Edges=[[[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,
 K23Binomials=[monomial(nvars, b[0]).divide(monomial(nvars, b[1])) for b in K23Edges]
 
 degreeTwo = listMonomials (2, nvars)
+degreeThree = listMonomials (3, nvars)
+degreeFour = listMonomials (4, nvars)
+
+oneMonomial = degreeTwo[122];
+
+enumerateConnectedComponent (oneMonomial, K23Binomials)
