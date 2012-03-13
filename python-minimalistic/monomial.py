@@ -53,6 +53,9 @@ class monomial(object):
         else:
             raise LengthMismatch()
 
+    def degree (self):
+        return sum (self.exponents)
+
     def applyBinomial(self, b):
         raise NotImplementedError()
 
@@ -74,28 +77,15 @@ class monomial(object):
             if m.exponents[i] != self.exponents[i]: return False
         return True
 
-class RightMostMonomial(Exception):
-    pass
-
-# This is faulty:
-# def shiftRight (m):
-#     """ Lexicographic ordering"""
-#     l = m.length
-#     for i in range(l):
-#         # Warning, backwardindexing starts with -1
-#         if m.exponents[-(i+1)] == 0: continue
-#         # We have found a nonzero index
-#         # If it is the last
-#         if i==0: continue
-#         newExponents = [j for j in m.exponents]
-#         newExponents[-(i+1)]=newExponents[-(i+1)]-1
-#         newExponents[-i]=newExponents[-i]+1
-#         return monomial(m.length,newExponents)
-#     raise RightMostMonomial()
-
 
 # This will only work in sage        
 def listMonomials(degree, length):
     """List all monomials of a given degree"""
     return [monomial (length, v) for v in IntegerVectors(degree, length).list()]
+
+def listDivisibleMonomials (degree, m, length):
+    """ List all monomials of given degree that are divisible by m"""
+    remainingDegree = degree - m.degree()
+    mi = m.invert()
+    return [n.divide(mi) for n in listMonomials(remainingDegree, length)]
 

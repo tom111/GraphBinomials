@@ -13,6 +13,3 @@ degreeTwo = listMonomials (2, nvars)
 degreeThree = listMonomials (3, nvars)
 degreeFour = listMonomials (4, nvars)
 
-oneMonomial = degreeTwo[122];
-
-enumerateConnectedComponent (oneMonomial, K23Binomials)
