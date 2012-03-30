@@ -2,6 +2,7 @@
 
 from searching import *
 from monomial import *
+from witnessSearch import *
 
 nvars=16
 
@@ -14,6 +15,21 @@ K22Edges=[
 [[0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]],
 [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0]],
 [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]]]
+
 K22Binomials=[monomial(nvars, b[0]).divide(monomial(nvars, b[1])) for b in K22Edges]
 
-result = axisSaturate(K22Binomials, 0, 5, Verbose=True)
+# result = axisSaturate(K22Binomials, 0, 5, Verbose=True)
+
+higherMarkovEdges=[[0,0,0,0,1,-1,-1,1,-1,1,1,-1,0,0,0,0],
+[0,0,1,-1,-1,1,0,0,0,0,-1,1,1,-1,0,0],
+[0,1,-1,0,0,-1,1,0,0,-1,1,0,0,1,-1,0],
+[0,1,0,-1,0,-1,0,1,-1,0,1,0,1,0,-1,0],
+[1,-1,-1,1,0,0,0,0,0,0,0,0,-1,1,1,-1],
+[1,-1,0,0,0,0,-1,1,-1,1,0,0,0,0,1,-1],
+[1,0,-1,0,-1,0,1,0,0,-1,0,1,0,1,0,-1],
+[1,0,0,-1,-1,0,0,1,-1,0,0,1,1,0,0,-1]]
+
+for h in [monomial(nvars, hh) for hh in higherMarkovEdges]:
+    wF = WitnessSearch(nvars, K22Binomials, h, Verbose=False)
+    print ("Witness for " + str(h) + "  :  " + str(wF.findWitness()))
+    

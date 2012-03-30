@@ -47,11 +47,23 @@ class monomial(object):
         else:
             raise LengthMismatch()
 
+    def multiply (self, m):
+        if m.length==self.length:
+            return monomial(self.length, [self.exponents[i] + m.exponents[i] for i in range (self.length)])
+        else:
+            raise LengthMismatch()
+
     def divide (self, m):
         if m.length==self.length:
             return monomial(self.length, [self.exponents[i] - m.exponents[i] for i in range (self.length)])
         else:
             raise LengthMismatch()
+
+    def positivePart (self):
+        return monomial (self.length, [max(self.exponents[i], 0) for i in range (self.length)])
+
+    def negativePart (self):
+        return monomial (self.length, [max(-self.exponents[i], 0) for i in range (self.length)])
 
     def degree (self):
         return sum (self.exponents)
