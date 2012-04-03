@@ -1,7 +1,9 @@
 """ Analyzing the CI ideal of K23 """
 
-from searching import *
-from monomial import *
+# from searching import *
+import searching
+# from monomial import *
+import monomial
 from witnessSearch import *
 
 nvars=32
@@ -435,7 +437,7 @@ higherMarkovMoves=[monomial (nvars, h) for h in [
 # This will be our benchmark
 witnesses=[]
 for h in higherMarkovMoves:
-    wS = WitnessSearch(nvars,K23Binomials,h,Verbose=True)
+    wS = WitnessSearch(nvars,K23Binomials,h,Verbose=False)
     w = wS.findWitness()
     witnesses.append(w)
     
