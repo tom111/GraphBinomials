@@ -4,7 +4,7 @@ from Cython.Distutils import build_ext
 
 ext_modules = [
     Extension("monomial", ["monomial.pyx"], language="c++"),
-    Extension("searching", ["searching.pyx"])
+    Extension("searching", ["searching.pyx"], language="c++")
     ]
 
 setup(

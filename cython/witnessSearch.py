@@ -19,7 +19,7 @@ from monomial import *
 def createVar (i,n):
     l = [0 for j in range(n)]
     l[i]=1
-    return monomial(n, l)
+    return Monomial(n, l)
 
 class NoWitnessFound (Exception):
     pass
@@ -39,7 +39,7 @@ class WitnessSearch:
         while (stoppingDegree == False or (d <= stoppingDegree)):
             todo = combinations_with_replacement(variables, d)
             for t in todo:
-                m=monomial(self.nvars)
+                m=Monomial(self.nvars, [0 for jj in range (self.nvars)])
                 for tt in t: m = m.multiply(tt)
                 if self.verbose:
                     print "Now testing:"

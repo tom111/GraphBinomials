@@ -139,7 +139,7 @@ def axisSaturate (binomials, i, degree, Verbose=False):
     while d < degree:
         if Verbose: print ("Now searching for degree " + str (d) + " moves.")
         # List monomials of degree d, divisible by i.
-        mi = monomial(length, exponents = [1 if j==i else 0 for j in range (length)])
+        mi = Monomial(length, exponents = [1 if j==i else 0 for j in range (length)])
         divisibleMonomials = listDivisibleMonomials (d+1, mi, length)
         # Filter the isolated Monomials:
         if Verbose: print ("Filtering isolated monomials")
