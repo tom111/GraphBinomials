@@ -27,10 +27,11 @@
 
 #include <vector>
 
-#include "Monomial.h"
+#include "monomial.h"
 
 class Binomial {
-  
+
+ public:
   Monomial *head;
   Monomial *tail;
   
@@ -47,6 +48,6 @@ class Binomial {
 
   Monomial *positivePart ();
   Monomial *negativePart ();
+};
 
-}
-
+#endif

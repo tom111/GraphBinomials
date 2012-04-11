@@ -28,44 +28,46 @@
 #include <string>
 #include <vector>
 
-#include "Binomial.h"
-// TODO We need a forward reference to solve the vicious cycle
+
+// Forward reference to Binomial
+class Binomial;
 
 /*
 A monomial is a minimalistic data structure consisting basically only of an
-exponent vector.  
+exponent vector and its length
 
 Monomials are implemented immutable, they copy a given exponent vector on
 creation */
 
 class Monomial {
  
-  long length;
-  std::vector<int> exponents;
-  // exponents should not be too big, so we can save a little memory here by
-  // using int
-
  public:
+  long length;
+  std::vector<int> *exponents;
+  // exponents should not be too big, so we can save a little memory here by
+  // using int instead of long
 
   // The identity monomial constructor
   Monomial (long length);
   // A special monomial constructor
-  Monomial (long length, std:vector<int> exponents);
-  ~Monomial;
+  Monomial (long length, std::vector<int> exponents);
+  ~Monomial ();
 
-  std::Vector<int> getExponents ();
-  string toString ();
+  // std::Vector<int> getExponents ();
+  std::string toString ();
   Monomial* inverse ();
-  boolean isDivisible (Monomial *m);
+  bool isDivisible (Monomial *m);
   Monomial* multiply (Monomial *m);
   Monomial* divide (Monomial *m);
   long degree();
 
   // Todo: Implement equality operator??
-  boolean isSame (Monomial *m);
+  bool isSame (Monomial *m);
   Monomial* applyBinomialSafe (Binomial *b);
   // How should the signal about non-safe application pass-up?
   // Exception handling?
-  boolean isProper ();
+  bool isProper ();
 
-}
+};
+
+#endif
