@@ -1,0 +1,7 @@
+1) LD_LIBRARY_PATH for the python interpreter must include the directory of
+   graphbinomial.so for ldd to find it (when loading graphtool.so)
+2) setup.py must know about the library dir
+3) namespaces as described in
+   http://docs.cython.org/src/userguide/wrapping_CPlusPlus.html don't work. I
+   get an unknown symbol error when importing the .so into the python
+   interpreter.

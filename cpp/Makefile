@@ -4,12 +4,12 @@ CFLAGS=-c -Wall -fPIC
 LDFLAGS=
 SOURCES=monomial.cpp binomial.cpp graphbinomial.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-LIBRARY=graphbinomial.so
+LIBRARY=libgraphbinomial.so.1
 
 all: $(SOURCES) $(LIBRARY)
 
 $(LIBRARY): $(OBJECTS)
-	$(CC) $(LDFLAGS) -shared -fPIC $(OBJECTS) -o $@
+	$(CC) $(LDFLAGS) -shared -Wl,-soname,libgraphbinomial.so.1 $(OBJECTS) -o $@
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@
