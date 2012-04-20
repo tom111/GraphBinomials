@@ -57,15 +57,13 @@ class Monomial {
   std::string toString ();
   Monomial* inverse ();
   bool isDivisible (Monomial *m);
-  Monomial* multiply (Monomial *m);
-  Monomial* divide (Monomial *m);
+  //  Monomial* multiply (Monomial *m);
+  //  Monomial* divide (Monomial *m);
   long degree();
 
-  // Todo: Implement equality operator??
   bool isSame (Monomial *m);
   Monomial* applyBinomialSafe (Binomial *b);
-  // How should the signal about non-safe application pass-up?
-  // Exception handling?
+  Monomial* applyBinomialSafeReverse (Binomial *b);
   bool isProper ();
 
 };
