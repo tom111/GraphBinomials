@@ -50,7 +50,7 @@ class Monomial {
   // The identity monomial constructor
   Monomial (long length);
   // A special monomial constructor
-  Monomial (long length, std::vector<int> exponents);
+  Monomial (long length, std::vector<int> const& exponents);
   Monomial (Monomial *m);
   ~Monomial ();
 

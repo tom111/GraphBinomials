@@ -27,31 +27,33 @@
 #include <sstream>
 #include <vector>
 
-#include "Binomial.h"
-#include "Monomial.h"
+#include "binomial.h"
+#include "monomial.h"
+
+using namespace std;
 
 Monomial::Monomial (long l) {
   // Create the monomial with zero exponents
-  exponents = new std::vector<int>;
+  exponents = new vector<int>;
   length = l;
-  for (int i=0; i<length; i++){ exponents->push_back(0) };
+  for (int i=0; i<length; i++){ exponents->push_back(0); };
 };
 
-Monomial::Monomial (long l, std::vector<int> const& expo){
-  exponents = new std::vector<int>;
+Monomial::Monomial (long l, vector<int> const& expo){
+  exponents = new vector<int>;
   length = l;
   for (int i=0; i < l; i++){
     // length of expo is not confirmed
-    exponents.push_back(expo[i]);
+    exponents->push_back(expo[i]);
   }
 };
 
 Monomial::Monomial (Monomial *m) {
   // Copy the given monomial
   length = m->length;
-  exponents = new std::vector<int>;
+  exponents = new vector<int>;
   for (int i=0; i < length; i++) {
-    exponents.push_back(m->exponents[i]);
+    exponents->push_back( (*m->exponents)[i] );
   };
 };
 
@@ -59,28 +61,28 @@ Monomial::~Monomial (){
   delete exponents;
 };
 
-std::string Monomial::toString () {
-  std::stringstream ss;
-  ss << exponents[0];
-  for (int i = 1; i<l; i++){
+string Monomial::toString () {
+  stringstream ss;
+  ss << (*exponents)[0];
+  for (int i = 1; i<length; i++){
     ss << ",";
-    ss << exponents[i];
+    ss << (*exponents)[i];
   }
   return ss.str();
 };
 
 Monomial* Monomial::inverse () {
-  std::vector<int> invexpo;
-  for (int i=0; i<lenght; i++){
-    invexpo.pushback(-exponents[i]);
+  vector<int> invexpo;
+  for (int i=0; i<length; i++){
+    invexpo.push_back(-(*exponents)[i]);
   }
-  Monomial *inverse = new Monomial(lenght, invexpo);
+  return new Monomial(length, invexpo);
 };
 
 bool Monomial::isDivisible (Monomial *m){
   for (int i=0; i<length; i++){
-    if (exponents[i]<m->exponents[i]) { return false };
-  }
+    if ( (*exponents)[i] < (*m->exponents)[i] ) { return false; };
+  };
   return true;
 };
 
@@ -90,15 +92,15 @@ bool Monomial::isDivisible (Monomial *m){
 long Monomial::degree() {
   long result = 0;
   for (int i=0; i<length; i++){
-    result += exponents[i];
+    result += (*exponents)[i];
   }
   return result;
 };
 
 bool Monomial::isSame (Monomial *m) {
   for (int i=0; i<length; i++){
-    if (exponents[i] != m->exponents[i]) { return false };
-  }
+    if ( (*exponents)[i] != (*m->exponents)[i]) { return false; };
+  };
   return true;
 }
 
@@ -106,14 +108,14 @@ Monomial* Monomial::applyBinomialSafe (Binomial *b) {
   vector<int> newexpo;
   for (int i=0; i<length; i++){
     // Compute the exponent vector
-    if (exponents[i] - b->head->exponents[i]
-	+ b->tail->exponents[i] < 0) {
+    if ( (*exponents)[i] - (*b->head->exponents)[i]
+	+ (*b->tail->exponents)[i] < 0) {
       throw "Not applicable";
     }
     else {
-      newexpo.push_back(exponents[i] -
-			b->head->exponents[i] +
-			b->tail->exponents[i]);
+      newexpo.push_back((*exponents)[i] -
+			(*b->head->exponents)[i] +
+			(*b->tail->exponents)[i]);
     };
   };
   return new Monomial(length, newexpo);
@@ -124,14 +126,14 @@ Monomial* Monomial::applyBinomialSafeReverse (Binomial *b) {
   vector<int> newexpo;
   for (int i=0; i<length; i++){
     // Compute the exponent vector
-    if (exponents[i] + b->head->exponents[i]
-	- b->tail->exponents[i] < 0) {
+    if ((*exponents)[i] + (*b->head->exponents)[i]
+	- (*b->tail->exponents)[i] < 0) {
       throw "Not applicable";
     }
     else {
-      newexpo.push_back(exponents[i] +
-			b->head->exponents[i] -
-			b->tail->exponents[i]);
+      newexpo.push_back((*exponents)[i] +
+			(*b->head->exponents)[i] -
+			(*b->tail->exponents)[i]);
     };
   };
   return new Monomial(length, newexpo);
@@ -139,9 +141,8 @@ Monomial* Monomial::applyBinomialSafeReverse (Binomial *b) {
 
 bool Monomial::isProper () {
   for (int i=0; i<length; i++){
-    if (exponents[i] <0) { return false };
+    if ( (*exponents)[i] <0) { return false; };
   }
   return true;
 };
 
-#endif

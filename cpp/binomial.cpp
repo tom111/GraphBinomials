@@ -33,10 +33,10 @@ Binomial::Binomial (vector<int> exponents) {
   // Create a binomial from an integer vector
   vector<int> headexp;
   vector<int> tailexp;
-  for (int i=0; i<exponents.size(); i++) {
+  for (unsigned int i=0; i<exponents.size(); i++) {
     if ( exponents[i] > 0 ) {
       // This becomes the tail
-      headexp.push_back(exponents [i]);
+      headexp.push_back(exponents[i]);
       tailexp.push_back(0);
     }
     else {
@@ -49,8 +49,8 @@ Binomial::Binomial (vector<int> exponents) {
 }
 
 Binomial::Binomial (vector<int> headExp, std::vector<int> tailExp) {
-  head = new Monomial (exponents.size(), headExp);
-  tail = new Monomial (exponents.size(), tailExp);
+  head = new Monomial (headExp.size(), headExp);
+  tail = new Monomial (tailExp.size(), tailExp);
 }
 
 Binomial::Binomial (Monomial *hd, Monomial* tl) {
@@ -59,6 +59,7 @@ Binomial::Binomial (Monomial *hd, Monomial* tl) {
   tail = new Monomial (tl);
 }
 
-Binomial::~Binomial ();
-
-
+Binomial::~Binomial () {
+  delete head;
+  delete tail;
+}

@@ -34,8 +34,6 @@ using namespace std;
 
 bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binomial>& moves);
 
-};
-  
   // Just to test the cython interface
 void printMessage ();
 
