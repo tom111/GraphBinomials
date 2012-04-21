@@ -43,11 +43,8 @@ class Binomial {
    */
   Binomial (std::vector<int> exponents);
   Binomial (std::vector<int> headExp, std::vector<int> tailExp);
-  Binomial (Monomial *head, Monomial* tail);
+  Binomial (Monomial *hd, Monomial* tl);
   ~Binomial ();
-
-  Monomial *positivePart ();
-  Monomial *negativePart ();
 };
 
 #endif
