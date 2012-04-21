@@ -46,6 +46,15 @@ Monomial::Monomial (long l, std::vector<int> const& expo){
   }
 };
 
+Monomial::Monomial (Monomial *m) {
+  // Copy the given monomial
+  length = m->length;
+  exponents = new std::vector<int>;
+  for (int i=0; i < length; i++) {
+    exponents.push_back(m->exponents[i]);
+  };
+};
+
 Monomial::~Monomial (){
   delete exponents;
 };

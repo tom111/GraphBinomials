@@ -51,6 +51,7 @@ class Monomial {
   Monomial (long length);
   // A special monomial constructor
   Monomial (long length, std::vector<int> exponents);
+  Monomial (Monomial *m);
   ~Monomial ();
 
   // std::Vector<int> getExponents ();
