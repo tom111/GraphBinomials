@@ -93,8 +93,40 @@ bool Monomial::isSame (Monomial *m) {
   return true;
 }
 
-Monomial* Monomial::applyBinomialSafe (Binomial *b);
-Monomial* Monomial::applyBinomialSafeReverse (Binomial *b);
+Monomial* Monomial::applyBinomialSafe (Binomial *b) {
+  vector<int> newexpo;
+  for (int i=0; i<length; i++){
+    // Compute the exponent vector
+    if (exponents[i] - b->head->exponents[i]
+	+ b->tail->exponents[i] < 0) {
+      throw "Not applicable";
+    }
+    else {
+      newexpo.push_back(exponents[i] -
+			b->head->exponents[i] +
+			b->tail->exponents[i]);
+    };
+  };
+  return new Monomial(length, newexpo);
+};
+
+
+Monomial* Monomial::applyBinomialSafeReverse (Binomial *b) {
+  vector<int> newexpo;
+  for (int i=0; i<length; i++){
+    // Compute the exponent vector
+    if (exponents[i] + b->head->exponents[i]
+	- b->tail->exponents[i] < 0) {
+      throw "Not applicable";
+    }
+    else {
+      newexpo.push_back(exponents[i] +
+			b->head->exponents[i] -
+			b->tail->exponents[i]);
+    };
+  };
+  return new Monomial(length, newexpo);
+}
 
 bool Monomial::isProper () {
   for (int i=0; i<length; i++){
