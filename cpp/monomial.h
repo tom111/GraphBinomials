@@ -50,7 +50,7 @@ class Monomial {
   // The identity monomial constructor
   Monomial (long length);
   // A special monomial constructor
-  Monomial (long length, std::vector<int> const& exponents);
+  Monomial (long length, const std::vector<int>& exponents);
   Monomial (Monomial *m);
   ~Monomial ();
 
@@ -63,8 +63,8 @@ class Monomial {
   long degree();
 
   bool isSame (Monomial *m);
-  Monomial* applyBinomialSafe (Binomial *b);
-  Monomial* applyBinomialSafeReverse (Binomial *b);
+  Monomial* applyBinomialSafe (const Binomial& b);
+  Monomial* applyBinomialSafeReverse (const Binomial& b);
   bool isProper ();
 
 };

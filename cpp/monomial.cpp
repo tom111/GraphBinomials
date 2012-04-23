@@ -39,7 +39,7 @@ Monomial::Monomial (long l) {
   for (int i=0; i<length; i++){ exponents->push_back(0); };
 };
 
-Monomial::Monomial (long l, vector<int> const& expo){
+Monomial::Monomial (long l, const vector<int>& expo){
   exponents = new vector<int>;
   length = l;
   for (int i=0; i < l; i++){
@@ -104,36 +104,36 @@ bool Monomial::isSame (Monomial *m) {
   return true;
 }
 
-Monomial* Monomial::applyBinomialSafe (Binomial *b) {
+Monomial* Monomial::applyBinomialSafe (const Binomial& b) {
   vector<int> newexpo;
   for (int i=0; i<length; i++){
     // Compute the exponent vector
-    if ( (*exponents)[i] - (*b->head->exponents)[i]
-	+ (*b->tail->exponents)[i] < 0) {
+    if ( (*exponents)[i] - (*b.head->exponents)[i]
+	 + (*b.tail->exponents)[i] < 0) {
       throw "Not applicable";
     }
     else {
       newexpo.push_back((*exponents)[i] -
-			(*b->head->exponents)[i] +
-			(*b->tail->exponents)[i]);
+			(*b.head->exponents)[i] +
+			(*b.tail->exponents)[i]);
     };
   };
   return new Monomial(length, newexpo);
 };
 
 
-Monomial* Monomial::applyBinomialSafeReverse (Binomial *b) {
+Monomial* Monomial::applyBinomialSafeReverse (const Binomial& b) {
   vector<int> newexpo;
   for (int i=0; i<length; i++){
     // Compute the exponent vector
-    if ((*exponents)[i] + (*b->head->exponents)[i]
-	- (*b->tail->exponents)[i] < 0) {
+    if ((*exponents)[i] + (*b.head->exponents)[i]
+	- (*b.tail->exponents)[i] < 0) {
       throw "Not applicable";
     }
     else {
       newexpo.push_back((*exponents)[i] +
-			(*b->head->exponents)[i] -
-			(*b->tail->exponents)[i]);
+			(*b.head->exponents)[i] -
+			(*b.tail->exponents)[i]);
     };
   };
   return new Monomial(length, newexpo);
