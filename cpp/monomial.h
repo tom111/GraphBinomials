@@ -61,7 +61,7 @@ class Monomial {
   //  Monomial* divide (Monomial *m);
   long degree() const;
 
-  bool isSame (const Monomial& m) const;
+  bool operator== (const Monomial& m) const;
   Monomial* applyBinomialSafe (const Binomial& b) const;
   Monomial* applyBinomialSafeReverse (const Binomial& b) const;
   bool isProper () const;

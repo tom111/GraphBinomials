@@ -99,7 +99,8 @@ long Monomial::degree() const {
   return result;
 };
 
-bool Monomial::isSame (const Monomial& m) const {
+bool Monomial::operator== (const Monomial& m) const {
+  if (length != m.length) return false;
   for (int i=0; i<length; i++){
     if ( (*exponents)[i] != (*m.exponents)[i]) { return false; };
   };
