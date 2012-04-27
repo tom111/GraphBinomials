@@ -32,29 +32,31 @@
 
 using namespace std;
 
-Monomial::Monomial (long l) {
+Monomial::Monomial (long llength) : length(llength) {
   // Create the monomial with zero exponents
   exponents = new vector<int>;
-  length = l;
   for (int i=0; i<length; i++){ exponents->push_back(0); };
 };
 
-Monomial::Monomial (long l, const vector<int>& expo){
+Monomial::Monomial (long llength, const vector<int>& expo) : length(llength) {
   exponents = new vector<int>;
-  length = l;
-  for (int i=0; i < l; i++){
+  for (int i=0; i < length; i++){
     // length of expo is not confirmed
     exponents->push_back(expo[i]);
   }
 };
 
-Monomial::Monomial (Monomial *m) {
-  // Copy the given monomial
-  length = m->length;
+Monomial::Monomial (const vector<int>& expo) : length(expo.size()) {
   exponents = new vector<int>;
-  for (int i=0; i < length; i++) {
-    exponents->push_back( (*m->exponents)[i] );
-  };
+  for (int i=0; i < length; i++){
+    // length of expo is not confirmed
+    exponents->push_back(expo[i]);
+  }
+}
+
+Monomial::Monomial (const Monomial& m) : length(m.length){
+  // Copy the given monomial using the copy constructor of std::vector
+  exponents = new vector<int>(*m.exponents);
 };
 
 Monomial::~Monomial (){
@@ -79,9 +81,9 @@ Monomial* Monomial::inverse () {
   return new Monomial(length, invexpo);
 };
 
-bool Monomial::isDivisible (Monomial *m){
+bool Monomial::isDivisible (const Monomial& m){
   for (int i=0; i<length; i++){
-    if ( (*exponents)[i] < (*m->exponents)[i] ) { return false; };
+    if ( (*exponents)[i] < (*m.exponents)[i] ) { return false; };
   };
   return true;
 };
@@ -97,9 +99,9 @@ long Monomial::degree() {
   return result;
 };
 
-bool Monomial::isSame (Monomial *m) {
+bool Monomial::isSame (const Monomial& m) {
   for (int i=0; i<length; i++){
-    if ( (*exponents)[i] != (*m->exponents)[i]) { return false; };
+    if ( (*exponents)[i] != (*m.exponents)[i]) { return false; };
   };
   return true;
 }
@@ -145,4 +147,3 @@ bool Monomial::isProper () {
   }
   return true;
 };
-

@@ -40,29 +40,28 @@ Monomials are implemented immutable, they copy a given exponent vector on
 creation */
 
 class Monomial {
- 
+  // Todo: Decide on a public and private interface separation
  public:
-  long length;
+  const long length;
   std::vector<int> *exponents;
   // exponents should not be too big, so we can save a little memory here by
   // using int instead of long
 
-  // The identity monomial constructor
-  Monomial (long length);
-  // A special monomial constructor
-  Monomial (long length, const std::vector<int>& exponents);
-  Monomial (Monomial *m);
+  Monomial (long llength);
+  Monomial (long llength, const std::vector<int>& exponents);
+  Monomial (const std::vector<int>& expo);
+  Monomial (const Monomial& m);
   ~Monomial ();
 
   // std::Vector<int> getExponents ();
   std::string toString ();
   Monomial* inverse ();
-  bool isDivisible (Monomial *m);
+  bool isDivisible (const Monomial& m);
   //  Monomial* multiply (Monomial *m);
   //  Monomial* divide (Monomial *m);
   long degree();
 
-  bool isSame (Monomial *m);
+  bool isSame (const Monomial& m);
   Monomial* applyBinomialSafe (const Binomial& b);
   Monomial* applyBinomialSafeReverse (const Binomial& b);
   bool isProper ();
