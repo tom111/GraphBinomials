@@ -4,6 +4,8 @@
 #include <iostream>
 #include <typeinfo>
 
+#include <assert.h>
+
 #include "monomial.h"
 #include "binomial.h"
 #include "graphbinomial.h"

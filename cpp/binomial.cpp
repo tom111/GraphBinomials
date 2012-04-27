@@ -67,8 +67,6 @@ Binomial::Binomial (const Binomial& b) {
 }
 
 Binomial::~Binomial () {
-  cout << "in ~Binoimal going to delete the following two pointers now" << endl
-       << head << endl << tail << endl;
   delete head;
   delete tail;
 }
