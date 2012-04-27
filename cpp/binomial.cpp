@@ -24,6 +24,7 @@
  */
 
 #include <vector>
+#include <iostream>
 #include "monomial.h"
 #include "binomial.h"
 
@@ -60,7 +61,14 @@ Binomial::Binomial (const Monomial& hd, const Monomial& tl) {
   tail = new Monomial (tl);
 }
 
+Binomial::Binomial (const Binomial& b) { 
+  head = new Monomial (*b.head);
+  tail = new Monomial (*b.tail);
+}
+
 Binomial::~Binomial () {
+  cout << "in ~Binoimal going to delete the following two pointers now" << endl
+       << head << endl << tail << endl;
   delete head;
   delete tail;
 }

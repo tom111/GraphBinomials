@@ -41,9 +41,10 @@ class Binomial {
     monomial and freed at the end of its lifetime.  Construction is via one or
     two exponent vectors or directly via monomials
    */
-  Binomial (const std::vector<int>& exponents);
-  Binomial (const std::vector<int>& headExp, const std::vector<int>& tailExp);
-  Binomial (const Monomial& hd, const Monomial& tl);
+  Binomial (const std::vector<int>& exponents); // integer exponents
+  Binomial (const std::vector<int>& headExp, const std::vector<int>& tailExp); // non-negative exponents
+  Binomial (const Monomial& hd, const Monomial& tl); // two monomials
+  Binomial (const Binomial& b); // copy
   ~Binomial ();
 };
 
