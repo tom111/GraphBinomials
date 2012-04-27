@@ -8,6 +8,9 @@ LIBRARY=libgraphbinomial.so.1
 
 all: $(SOURCES) $(LIBRARY)
 
+tests:	tests.cpp $(SOURCES)
+	$(CC) -g $(SOURCES) tests.cpp -o tests
+
 $(LIBRARY): $(OBJECTS)
 	$(CC) $(LDFLAGS) -shared -Wl,-soname,libgraphbinomial.so.1 $(OBJECTS) -o $@
 
