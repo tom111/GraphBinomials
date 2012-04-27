@@ -34,15 +34,13 @@ vector<Monomial*>* generateNeighbours (const vector<Monomial>& base, const vecto
     for (unsigned int i=0; i<steps.size(); i++){
       try {
 	myMonomial = base[j].applyBinomialSafe(steps[i]);
-	for (unsigned int k=0; k<result->size(); k++) {
-	  if (isPresent(*result, *myMonomial)) {
-	    delete myMonomial;
-	    break;
-	  }
-	  else {
-	    result->push_back(myMonomial);
-	  };
+	if (isPresent(*result, *myMonomial)) {
+	  delete myMonomial;
+	  break;
 	}
+	else {
+	  result->push_back(myMonomial);
+	};
       }
       catch (const char* e) {}; // Move was not applicable
       // Try the other direction
@@ -90,8 +88,8 @@ bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binom
 	// We are done.  Clean up and return true
 	// Delete the known monomials, we created all of those.
 	for (unsigned int j=0; j<knownMonomials.size(); j++){ delete knownMonomials[j]; };
-	// All the newNeighbours are still around: Clean them up
-	for (unsigned int j=0; j<newNeighbours->size(); j++){ delete (*newNeighbours)[j]; };
+	// Clean newneighbours (will call desctructors of the content too)
+	delete newNeighbours;
 	return true;
       };
       if (!isPresent(knownMonomials, *n)) {
@@ -105,7 +103,7 @@ bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binom
 	// moves on and will not touch it anymore.
       }
     }; // End of the for loop on newNeighbours
-    // Need to free the vector itself
+    // Need to free newNeighbours.
     delete newNeighbours;
 
     // Did we find new Monomials?  Generate informative output?

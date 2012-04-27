@@ -32,6 +32,7 @@
 
 using namespace std;
 
+std::vector<Monomial*>* generateNeighbours (const vector<Monomial>& base, const vector<Binomial>& steps);
 bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binomial>& moves);
 
   // Just to test the cython interface

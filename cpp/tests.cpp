@@ -13,7 +13,7 @@
 using namespace std;
 
 void t1 () {
-    // The simplest example: <x^2 - xy, xy - y^2>
+  // The simplest example: <x^2 - xy, xy - y^2>
   // TODO: Figure out smarter way to assing vectors
   vector<int> e1; 
   vector<int> e2; 
