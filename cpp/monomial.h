@@ -42,7 +42,7 @@ creation */
 class Monomial {
   // Todo: Decide on a public and private interface separation
  public:
-  const long length;
+  long length;
   std::vector<int> *exponents;
   // exponents should not be too big, so we can save a little memory here by
   // using int instead of long

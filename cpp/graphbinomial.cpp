@@ -5,26 +5,26 @@
 #include <iostream>
 #include <vector>
 
-bool isPresent (vector<Monomial>& list, Monomial& element){
+// TODO: Fix this double definition (and use an iterator with std::find)!
+bool isPresent (const vector<Monomial>& list, const Monomial& element){
   for (unsigned int i=0; i<list.size(); i++){
-    if (element.isSame(&list[i])) {
+    if (element==(list[i])) {
       return true;
     };
   };
   return false;
 };
 
-bool isPresent (vector<Monomial*>& list, Monomial& element){
+bool isPresent (const vector<Monomial*>& list, const Monomial& element){
   for (unsigned int i=0; i<list.size(); i++){
-    if (element.isSame(list[i])) {
+    if (element==(*list[i])) {
       return true;
     };
   };
   return false;
 };
 
-
-vector<Monomial*>* generateNeighbours (vector<Monomial>& base, vector<Binomial>& steps) {
+vector<Monomial*>* generateNeighbours (const vector<Monomial>& base, const vector<Binomial>& steps) {
   // This function calls functions which allocate memory for new
   // monomials. and also allocates its result vector.  The main loop is
   // responsible for clean-up.
@@ -62,7 +62,7 @@ vector<Monomial*>* generateNeighbours (vector<Monomial>& base, vector<Binomial>&
   return result;
 };
 
-bool inSameComponent (Monomial& m1, Monomial& m2, vector<Binomial>& moves) {
+bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binomial>& moves) {
   // Use breadth first search on the graph.
 
   // Remember: Vectors are like good old C arrays.  Pointer arithmetic works!
@@ -76,7 +76,7 @@ bool inSameComponent (Monomial& m1, Monomial& m2, vector<Binomial>& moves) {
   // Previously unseen monomials in the neighbourhood of the current layer
   // Those never need to be cleaned up, they also exist in knownMonomials
   vector<Monomial> newMonomials;
-  newMonomials.push_back(&m1); // Bootstrap neighbour generation with m1.
+  newMonomials.push_back(m1); // Bootstrap neighbour generation with m1.
 
   while (newMonomials.size() > 0) {
     // The vector newNeigbours holds the neighbours of 'newMonomials' in each
@@ -86,7 +86,7 @@ bool inSameComponent (Monomial& m1, Monomial& m2, vector<Binomial>& moves) {
     newMonomials.clear();
     for (unsigned int i=0; i<newNeighbours->size(); i++) {
       Monomial *n = (*newNeighbours)[i];
-      if (n->isSame(&m1)) {
+      if (*n==m1) {
 	// We are done.  Clean up and return true
 	// Delete the known monomials, we created all of those.
 	for (unsigned int j=0; j<knownMonomials.size(); j++){ delete knownMonomials[j]; };
