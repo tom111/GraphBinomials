@@ -63,7 +63,7 @@ Monomial::~Monomial (){
   delete exponents;
 };
 
-string Monomial::toString () {
+string Monomial::toString () const {
   stringstream ss;
   ss << (*exponents)[0];
   for (int i = 1; i<length; i++){
@@ -73,7 +73,7 @@ string Monomial::toString () {
   return ss.str();
 };
 
-Monomial* Monomial::inverse () {
+Monomial* Monomial::inverse () const {
   vector<int> invexpo;
   for (int i=0; i<length; i++){
     invexpo.push_back(-(*exponents)[i]);
@@ -81,7 +81,7 @@ Monomial* Monomial::inverse () {
   return new Monomial(length, invexpo);
 };
 
-bool Monomial::isDivisible (const Monomial& m){
+bool Monomial::isDivisible (const Monomial& m) const {
   for (int i=0; i<length; i++){
     if ( (*exponents)[i] < (*m.exponents)[i] ) { return false; };
   };
@@ -91,7 +91,7 @@ bool Monomial::isDivisible (const Monomial& m){
 // Monomial* Monomial::multiply (Monomial *m);
 // Monomial* Monomial::divide (Monomial *m);
 
-long Monomial::degree() {
+long Monomial::degree() const {
   long result = 0;
   for (int i=0; i<length; i++){
     result += (*exponents)[i];
@@ -99,14 +99,14 @@ long Monomial::degree() {
   return result;
 };
 
-bool Monomial::isSame (const Monomial& m) {
+bool Monomial::isSame (const Monomial& m) const {
   for (int i=0; i<length; i++){
     if ( (*exponents)[i] != (*m.exponents)[i]) { return false; };
   };
   return true;
 }
 
-Monomial* Monomial::applyBinomialSafe (const Binomial& b) {
+Monomial* Monomial::applyBinomialSafe (const Binomial& b) const {
   vector<int> newexpo;
   for (int i=0; i<length; i++){
     // Compute the exponent vector
@@ -124,7 +124,7 @@ Monomial* Monomial::applyBinomialSafe (const Binomial& b) {
 };
 
 
-Monomial* Monomial::applyBinomialSafeReverse (const Binomial& b) {
+Monomial* Monomial::applyBinomialSafeReverse (const Binomial& b) const {
   vector<int> newexpo;
   for (int i=0; i<length; i++){
     // Compute the exponent vector
@@ -141,7 +141,7 @@ Monomial* Monomial::applyBinomialSafeReverse (const Binomial& b) {
   return new Monomial(length, newexpo);
 }
 
-bool Monomial::isProper () {
+bool Monomial::isProper () const {
   for (int i=0; i<length; i++){
     if ( (*exponents)[i] <0) { return false; };
   }

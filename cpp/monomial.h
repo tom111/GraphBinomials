@@ -54,18 +54,17 @@ class Monomial {
   ~Monomial ();
 
   // std::Vector<int> getExponents ();
-  std::string toString ();
-  Monomial* inverse ();
-  bool isDivisible (const Monomial& m);
+  std::string toString () const;
+  Monomial* inverse () const;
+  bool isDivisible (const Monomial& m) const;
   //  Monomial* multiply (Monomial *m);
   //  Monomial* divide (Monomial *m);
-  long degree();
+  long degree() const;
 
-  bool isSame (const Monomial& m);
-  Monomial* applyBinomialSafe (const Binomial& b);
-  Monomial* applyBinomialSafeReverse (const Binomial& b);
-  bool isProper ();
-
+  bool isSame (const Monomial& m) const;
+  Monomial* applyBinomialSafe (const Binomial& b) const;
+  Monomial* applyBinomialSafeReverse (const Binomial& b) const;
+  bool isProper () const;
 };
 
 #endif
