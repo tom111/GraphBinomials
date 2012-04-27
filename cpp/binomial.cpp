@@ -29,31 +29,32 @@
 
 using namespace std;
 
-Binomial::Binomial (vector<int> exponents) {
+Binomial::Binomial (const vector<int>& exponents) {
   // Create a binomial from an integer vector
   vector<int> headexp;
   vector<int> tailexp;
   for (unsigned int i=0; i<exponents.size(); i++) {
     if ( exponents[i] > 0 ) {
-      // This becomes the tail
+      // Push exponent to the head and a zero to the tail
       headexp.push_back(exponents[i]);
       tailexp.push_back(0);
     }
     else {
+      // vice versa
       headexp.push_back(0);
       tailexp.push_back(-exponents[i]);
     };
   };
-  head = new Monomial (exponents.size(), headexp);
-  tail = new Monomial (exponents.size(), tailexp);
+  head = new Monomial (headexp);
+  tail = new Monomial (tailexp);
 }
 
-Binomial::Binomial (vector<int> headExp, std::vector<int> tailExp) {
-  head = new Monomial (headExp.size(), headExp);
-  tail = new Monomial (tailExp.size(), tailExp);
+Binomial::Binomial (const vector<int>& headExp, const std::vector<int>& tailExp) {
+  head = new Monomial (headExp);
+  tail = new Monomial (tailExp);
 }
 
-Binomial::Binomial (Monomial *hd, Monomial* tl) {
+Binomial::Binomial (const Monomial& hd, const Monomial& tl) {
   // Will copy the monomials
   head = new Monomial (hd);
   tail = new Monomial (tl);
