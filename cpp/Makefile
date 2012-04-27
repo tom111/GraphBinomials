@@ -1,12 +1,12 @@
 # Simple makefile to get started
 CC=g++
-CFLAGS=-c -Wall -fPIC
+CFLAGS=-c -Wall -ggdb -fPIC
 LDFLAGS=
 SOURCES=monomial.cpp binomial.cpp graphbinomial.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 LIBRARY=libgraphbinomial.so.1
 
-all: $(SOURCES) $(LIBRARY)
+all: $(SOURCES) $(LIBRARY) tests
 
 tests:	tests.cpp $(SOURCES)
 	$(CC) -g $(SOURCES) tests.cpp -o tests
@@ -18,4 +18,4 @@ $(LIBRARY): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf *.o *.so
+	rm -rf *.o *.so tests
