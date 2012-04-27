@@ -15,16 +15,13 @@ using namespace std;
 void t1 () {
   // The simplest example: <x^2 - xy, xy - y^2>
   // TODO: Figure out smarter way to assing vectors
-  vector<int> e1; 
-  vector<int> e2; 
-  vector<int> e3;
-  e1.push_back(2);
-  e2.push_back(1);
-  e3.push_back(0);
-  e1.push_back(0);
-  e2.push_back(1);
-  e3.push_back(2);
-  
+  int v1[2] = {2,0};
+  int v2[2] = {1,1};
+  int v3[2] = {0,2};
+  vector<int> e1(v1, v1+2); 
+  vector<int> e2(v2, v2+2); 
+  vector<int> e3(v3, v3+3);
+
   Monomial m1(e1);
   Monomial m2(e2);
   Monomial m3(e3);
