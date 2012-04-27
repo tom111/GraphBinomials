@@ -111,8 +111,7 @@ Monomial* Monomial::applyBinomialSafe (const Binomial& b) const {
   vector<int> newexpo;
   for (int i=0; i<length; i++){
     // Compute the exponent vector
-    if ( (*exponents)[i] - (*b.head->exponents)[i]
-	 + (*b.tail->exponents)[i] < 0) {
+    if ( (*exponents)[i] - (*b.head->exponents)[i] < 0) {
       throw "Not applicable";
     }
     else {
@@ -129,8 +128,7 @@ Monomial* Monomial::applyBinomialSafeReverse (const Binomial& b) const {
   vector<int> newexpo;
   for (int i=0; i<length; i++){
     // Compute the exponent vector
-    if ((*exponents)[i] + (*b.head->exponents)[i]
-	- (*b.tail->exponents)[i] < 0) {
+    if ((*exponents)[i] - (*b.tail->exponents)[i] < 0) {
       throw "Not applicable";
     }
     else {

@@ -35,8 +35,19 @@ void t1 () {
   edges.push_back(b1);
   edges.push_back(b2);
 
-  assert (!inSameComponent (m1, m2, edges));
-  assert (!inSameComponent (m1, m3, edges));
+  cout << "Testing connectivity of generating monomials" << endl;
+  assert (inSameComponent (m1, m2, edges));
+  assert (inSameComponent (m1, m3, edges));
+  cout << "Passed." << endl;
+
+  // test x and y:
+  cout << "Testing non-connectivity of x,y"<< endl;
+  vector<int> ex; ex.push_back(1); ex.push_back(0);
+  vector<int> ey; ey.push_back(0); ey.push_back(1);
+  Monomial x(ex);
+  Monomial y(ey);
+  assert (!inSameComponent(x,y, edges));
+  cout << "Passed."<< endl;
 }
 
 int main(){
