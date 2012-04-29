@@ -11,6 +11,9 @@ all: $(SOURCES) $(LIBRARY) tests
 tests:	tests.cpp $(SOURCES)
 	$(CC) -Wall -ggdb $(SOURCES) tests.cpp -o tests
 
+k22: k22.cpp $(SOURCES)
+	$(CC) $(SOURCES) k22.cpp -o k22
+
 $(LIBRARY): $(OBJECTS)
 	$(CC) $(LDFLAGS) -shared -Wl,-soname,libgraphbinomial.so.1 $(OBJECTS) -o $@
 
