@@ -50,6 +50,7 @@ class Monomial {
   Monomial (long llength);
   Monomial (long llength, const std::vector<int>& exponents);
   Monomial (const std::vector<int>& expo);
+  Monomial (const std::string& s);
   Monomial (const Monomial& m);
   ~Monomial ();
 

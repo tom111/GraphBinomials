@@ -23,6 +23,7 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
+#include <cstdlib>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -52,6 +53,16 @@ Monomial::Monomial (const vector<int>& expo) : length(expo.size()) {
     // length of expo is not confirmed
     exponents->push_back(expo[i]);
   }
+}
+
+Monomial::Monomial (const string& s) {
+    // This constructor assumes the string s is a single line containing space
+  // separated values of the exponent vector.
+  istringstream ss (s);
+  string word;
+  while ( ss >> word ) {
+    exponents->push_back(atoi(word.c_str()));
+  };
 }
 
 Monomial::Monomial (const Monomial& m) : length(m.length){
