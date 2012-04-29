@@ -23,8 +23,12 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
-#include <vector>
+#include <cstdlib>
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "monomial.h"
 #include "binomial.h"
 

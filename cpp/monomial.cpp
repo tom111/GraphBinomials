@@ -88,7 +88,13 @@ bool Monomial::isDivisible (const Monomial& m) const {
   return true;
 };
 
-// Monomial* Monomial::multiply (Monomial *m);
+Monomial* Monomial::multiply (const Monomial& m) const {
+  vector<int> newexpo;
+  for (int i=0; i<length; i++){
+    newexpo.push_back((*exponents)[i] + (*m.exponents)[i]);
+  }
+  return new Monomial (length, newexpo);
+}
 // Monomial* Monomial::divide (Monomial *m);
 
 long Monomial::degree() const {

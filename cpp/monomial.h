@@ -57,7 +57,7 @@ class Monomial {
   std::string toString () const;
   Monomial* inverse () const;
   bool isDivisible (const Monomial& m) const;
-  //  Monomial* multiply (Monomial *m);
+  Monomial* multiply (const Monomial& m) const;
   //  Monomial* divide (Monomial *m);
   long degree() const;
 
