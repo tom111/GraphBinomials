@@ -14,6 +14,9 @@ tests:	tests.cpp $(SOURCES)
 k22: k22.cpp $(SOURCES)
 	$(CC) $(SOURCES) k22.cpp -o k22
 
+k33: k33.cpp $(SOURCES)
+	$(CC) $(SOURCES) k33.cpp -o k33
+
 $(LIBRARY): $(OBJECTS)
 	$(CC) $(LDFLAGS) -shared -Wl,-soname,libgraphbinomial.so.1 $(OBJECTS) -o $@
 
