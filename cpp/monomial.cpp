@@ -60,6 +60,7 @@ Monomial::Monomial (const string& s) {
   // separated values of the exponent vector.
   istringstream ss (s);
   string word;
+  exponents = new vector<int>;
   while ( ss >> word ) {
     exponents->push_back(atoi(word.c_str()));
   };
