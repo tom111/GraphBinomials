@@ -2,7 +2,7 @@
 CC=g++
 CFLAGS=-c -Wall -fPIC
 LDFLAGS=
-SOURCES=monomial.cpp binomial.cpp graphbinomial.cpp
+SOURCES=monomial.cpp binomial.cpp graphbinomial.cpp fileIO.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 LIBRARY=libgraphbinomial.so.1
 
