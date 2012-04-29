@@ -44,6 +44,7 @@ class Binomial {
   Binomial (const std::vector<int>& exponents); // integer exponents
   Binomial (const std::vector<int>& headExp, const std::vector<int>& tailExp); // non-negative exponents
   Binomial (const Monomial& hd, const Monomial& tl); // two monomials
+  Binomial (const std::string& s); // read exponent vector from string
   Binomial (const Binomial& b); // copy
   ~Binomial ();
 };

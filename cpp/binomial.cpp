@@ -61,6 +61,35 @@ Binomial::Binomial (const Monomial& hd, const Monomial& tl) {
   tail = new Monomial (tl);
 }
 
+Binomial::Binomial (const std::string& s){
+  // This constructor assumes the string s is a single line containing space
+  // separated values of the exponent vector.
+  std::istringstream ss (s);
+  std::string word;
+  std::vector<int> exponents;
+  while ( ss >> word ) {
+    exponents.push_back(atoi(word.c_str()));
+  };
+  // Can't call other constructor from here in C++
+  // duplicate code from above
+  vector<int> headexp;
+  vector<int> tailexp;
+  for (unsigned int i=0; i<exponents.size(); i++) {
+    if ( exponents[i] > 0 ) {
+      // Push exponent to the head and a zero to the tail
+      headexp.push_back(exponents[i]);
+      tailexp.push_back(0);
+    }
+    else {
+      // vice versa
+      headexp.push_back(0);
+      tailexp.push_back(-exponents[i]);
+    };
+  };
+  head = new Monomial (headexp);
+  tail = new Monomial (tailexp);
+}
+
 Binomial::Binomial (const Binomial& b) { 
   head = new Monomial (*b.head);
   tail = new Monomial (*b.tail);
