@@ -47,6 +47,7 @@ class Binomial {
   Binomial (const std::string& s); // read exponent vector from string
   Binomial (const Binomial& b); // copy
   ~Binomial ();
+  unsigned int degree() const;
 };
 
 #endif

@@ -103,3 +103,13 @@ Binomial::~Binomial () {
   delete head;
   delete tail;
 }
+
+unsigned int Binomial::degree () const {
+  unsigned int d1 = head->degree() , d2 = tail->degree();
+  if (d1 != d2) {
+    cout << "Warning, not homogeneous";
+    return -1;
+  }
+  else return d1;    
+}
+
