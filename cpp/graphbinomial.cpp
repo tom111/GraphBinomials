@@ -107,9 +107,9 @@ bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binom
     delete newNeighbours;
 
     // Did we find new Monomials?  Generate informative output?
-    if (newMonomials.size() > 0) {
-      cout << "Next iteration will run with " << newMonomials.size() << " Neighbours" << endl;
-    };
+    // if (newMonomials.size() > 0) {
+    //  cout << "Next iteration will run with " << newMonomials.size() << " Neighbours" << endl;
+    // };
   }; // while loop on newMonomials
 
   // Did not find a connection.  Clean up and return.
