@@ -48,6 +48,7 @@ class Binomial {
   Binomial (const Binomial& b); // copy
   ~Binomial ();
   unsigned int degree() const;
+  Binomial* multiply (const Monomial& m) const;
 };
 
 #endif

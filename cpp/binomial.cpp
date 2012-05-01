@@ -104,6 +104,10 @@ Binomial::~Binomial () {
   delete tail;
 }
 
+Binomial* Binomial::multiply (const Monomial& m) const {
+  return new Binomial (*head->multiply(m),*tail->multiply(m));
+}
+
 unsigned int Binomial::degree () const {
   unsigned int d1 = head->degree() , d2 = tail->degree();
   if (d1 != d2) {
