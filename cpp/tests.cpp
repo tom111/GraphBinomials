@@ -20,7 +20,7 @@ void t1 () {
   int v3[2] = {0,2};
   vector<int> e1(v1, v1+2); 
   vector<int> e2(v2, v2+2); 
-  vector<int> e3(v3, v3+3);
+  vector<int> e3(v3, v3+2);
 
   Monomial m1(e1);
   Monomial m2(e2);
@@ -47,7 +47,47 @@ void t1 () {
   cout << "Passed."<< endl;
 }
 
+void t2 () {
+  // K22 Example
+  Binomial b1("-1 0 1 0 0 0 0 0 1 0 -1 0 0 0 0 0");
+  Binomial b2("0 -1 0 1 0 0 0 0 0 1 0 -1 0 0 0 0");
+  Binomial b3("0 0 0 0 -1 0 1 0 0 0 0 0 1 0 -1 0");
+  Binomial b4("0 0 0 0 0 -1 0 1 0 0 0 0 0 1 0 -1");
+  Binomial b5("-1 1 0 0 1 -1 0 0 0 0 0 0 0 0 0 0");
+  Binomial b6("0 0 -1 1 0 0 1 -1 0 0 0 0 0 0 0 0");
+  Binomial b7("0 0 0 0 0 0 0 0 -1 1 0 0 1 -1 0 0");
+  Binomial b8("0 0 0 0 0 0 0 0 0 0 -1 1 0 0 1 -1");
+  
+  vector<Binomial> edges;
+  edges.push_back(b1); edges.push_back(b2); edges.push_back(b3);
+  edges.push_back(b4); edges.push_back(b5); edges.push_back(b6);
+  edges.push_back(b7); edges.push_back(b8);
+
+  // The quartics
+  Binomial m1 ("0 0 0 0 1 -1 -1 1 -1 1 1 -1 0 0 0 0");
+  Binomial m2 ("0 0 1 -1 -1 1 0 0 0 0 -1 1 1 -1 0 0");
+  Binomial m3 ("0 1 -1 0 0 -1 1 0 0 -1 1 0 0 1 -1 0");
+  Binomial m4 ("0 1 0 -1 0 -1 0 1 -1 0 1 0 1 0 -1 0");
+  Binomial m5 ("1 -1 -1 1 0 0 0 0 0 0 0 0 -1 1 1 -1");
+  Binomial m6 ("1 -1 0 0 0 0 -1 1 -1 1 0 0 0 0 1 -1");
+  Binomial m7 ("1 0 -1 0 -1 0 1 0 0 -1 0 1 0 1 0 -1");
+  Binomial m8 ("1 0 0 -1 -1 0 0 1 -1 0 0 1 1 0 0 -1");
+
+  // Do some easy checks (no move applies at all)
+  cout << inSameComponent (*m1.head, *m1.tail, edges) << endl;
+  
+  // Choose some high multipliers
+  Monomial mp1("1 1 1 1 1 2 1 1 6 3 1 2 1 1 1 1");
+  Monomial mp2("1 1 1 1 1 1 1 2 1 1 1 2 3 1 6 1"); 
+  // Should be same degree.
+  
+  Monomial *t1 = mp1.multiply(*m1.head);
+  Monomial *t2 = mp2.multiply(*m2.tail);
+  assert (! inSameComponent (*t1, *t2, edges));
+}
+
 int main(){
   t1();
+  t2();
   return 0;
 }
