@@ -13,13 +13,13 @@ using namespace std;
 const int size=64;
 
 // The input data
-vector<Binomial> *edges = read4ti2File ("/home/tom/GraphBinomials/cpp/k33.mar");
+vector<Binomial> *edges = read4ti2File ("./k33.mar");
 
 // Use trick to read in all integer vectors of size two:
 // vector<Binomial> *varproducts = read4ti2File ("/home/tom/GraphBinomials/cpp/var2.mar");
 
 // Squarefree:
-vector<Binomial> *varproducts = read4ti2File ("/home/tom/GraphBinomials/cpp/var2squarefree.mar");
+vector<Binomial> *varproducts = read4ti2File ("./var2squarefree.mar");
 
 int main() {
   vector<Binomial>* quadrics = new vector<Binomial>; // CI moves
