@@ -14,17 +14,9 @@ using namespace std;
 
 void t1 () {
   // The simplest example: <x^2 - xy, xy - y^2>
-  // TODO: Figure out smarter way to assing vectors
-  int v1[2] = {2,0};
-  int v2[2] = {1,1};
-  int v3[2] = {0,2};
-  vector<int> e1(v1, v1+2); 
-  vector<int> e2(v2, v2+2); 
-  vector<int> e3(v3, v3+2);
-
-  Monomial m1(e1);
-  Monomial m2(e2);
-  Monomial m3(e3);
+  Monomial m1("2 0");
+  Monomial m2("1 1");
+  Monomial m3("0 2");
 
   Binomial b1(m1, m2);
   Binomial b2(m2, m3);
@@ -86,8 +78,29 @@ void t2 () {
   assert (! inSameComponent (*t1, *t2, edges));
 }
 
+void t3(){
+  Monomial m1("3 0");
+  Monomial m2("2 1");
+  Monomial m3("1 2");
+  Monomial m4("0 3");
+  Binomial b1(m1, m2);
+  Binomial b2(m2, m3);
+  Binomial b3(m3, m4);
+  vector<Binomial> edges;
+  edges.push_back(b1);
+  edges.push_back(b2);
+  edges.push_back(b3);
+  vector<Monomial*> *component = enumerateComponent(Monomial("3 3"), edges);
+  cout << "The following should be the list of monomials of degree 6:" << endl;
+  for (unsigned int i = 0; i< component->size(); i++) {
+    cout << component->at(i)->toString() << endl;
+  }
+  assert (component->size() == 5);
+}
+
 int main(){
   t1();
   t2();
+  t3();
   return 0;
 }
