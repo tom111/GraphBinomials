@@ -63,6 +63,16 @@ vector<Monomial*>* generateNeighbours (const vector<Monomial>& base, const vecto
 bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binomial>& moves) {
   // Use breadth first search on the graph.
 
+//   // Verbose debugging output 
+//   cout << "Starting inSameComponent with the following data:" << endl;
+//   cout << "Monomial 1: " << m1.toString() << endl;
+//   cout << "Monomial 2: " << m2.toString() << endl;
+//   cout << "I got " << moves.size() << " edges to use: " << endl;
+// 
+//   for (unsigned int i=0; i<moves.size(); i++){
+//     cout << "   " << moves[i].toString() << endl;
+//   }
+
   // Remember: Vectors are like good old C arrays.  Pointer arithmetic works!
   // Our vectors will store pointers
   
@@ -80,12 +90,23 @@ bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binom
     // The vector newNeigbours holds the neighbours of 'newMonomials' in each
     // step. Everything in newNeighbours is possessed by this while loop.
     vector<Monomial*>* newNeighbours = generateNeighbours (newMonomials, moves);
+//     // Verbose debugging output:
+//     cout << "Done Computing Neighbours: Here they are:" << endl;
+//     for (unsigned int ii = 0; ii < newNeighbours->size(); ii++){
+//       cout << ii << ": " << newNeighbours->at(ii)->toString() << endl;
+//     }
+//     cout << " ------- makes sense ? -------- " << endl;
     // newMonomials is not needed anymore now.
     newMonomials.clear();
     for (unsigned int i=0; i<newNeighbours->size(); i++) {
       Monomial *n = (*newNeighbours)[i];
-      if (*n==m1) {
-	// We are done.  Clean up and return true
+      if (*n==m2) {
+// 	// Verbose debugging output:
+// 	cout << "I just concluded that the following monomials are the same: " << endl;
+// 	cout << " 1: " << n->toString() << endl;
+// 	cout << " 2: " << m2.toString() << endl;
+	
+	// We are done searching.  Clean up and return true
 	// Delete the known monomials, we created all of those.
 	for (unsigned int j=0; j<knownMonomials.size(); j++){ delete knownMonomials[j]; };
 	// Clean newneighbours (will call desctructors of the content too)
