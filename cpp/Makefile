@@ -17,6 +17,9 @@ k22: k22.cpp $(SOURCES)
 k33: k33.cpp $(SOURCES)
 	$(CC) $(SOURCES) k33.cpp -o k33
 
+k33-special: k33-special.cpp $(SOURCES)
+	$(CC) $(SOURCES) k33-special.cpp -o k33-special
+
 $(LIBRARY): $(OBJECTS)
 	$(CC) $(LDFLAGS) -shared -Wl,-soname,libgraphbinomial.so.1 $(OBJECTS) -o $@
 
