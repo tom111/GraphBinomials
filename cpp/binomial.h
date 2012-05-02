@@ -26,6 +26,7 @@
 #define BINOMIAL_H
 
 #include <vector>
+#include <string>
 
 #include "monomial.h"
 
@@ -48,6 +49,7 @@ class Binomial {
   Binomial (const Binomial& b); // copy
   ~Binomial ();
   unsigned int degree() const;
+  std::string toString() const;
   Binomial* multiply (const Monomial& m) const;
 };
 

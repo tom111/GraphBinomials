@@ -117,3 +117,9 @@ unsigned int Binomial::degree () const {
   else return d1;    
 }
 
+string Binomial::toString () const {
+  stringstream ss;
+  ss << "head: " << head->toString() << " --- tail: " << tail->toString() << endl;
+  return ss.str();
+}
+
