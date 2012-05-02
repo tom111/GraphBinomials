@@ -86,10 +86,11 @@ bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binom
   vector<Monomial> newMonomials;
   newMonomials.push_back(m1); // Bootstrap neighbour generation with m1.
 
+  vector<Monomial*>* newNeighbours;
   while (newMonomials.size() > 0) {
     // The vector newNeigbours holds the neighbours of 'newMonomials' in each
     // step. Everything in newNeighbours is possessed by this while loop.
-    vector<Monomial*>* newNeighbours = generateNeighbours (newMonomials, moves);
+    newNeighbours = generateNeighbours (newMonomials, moves);
 //     // Verbose debugging output:
 //     cout << "Done Computing Neighbours: Here they are:" << endl;
 //     for (unsigned int ii = 0; ii < newNeighbours->size(); ii++){
@@ -143,6 +144,37 @@ bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binom
   return false;
 };
 
-void printMessage (){
-  std::cout << "Hallo Cython" << std::endl;
+vector<Monomial*>* enumerateComponent (const Monomial& m, const vector<Binomial>& moves) {
+  // similar to inSameComponent, see comments there.
+  vector<Monomial*> *knownMonomials = new vector<Monomial*>;
+  knownMonomials->push_back(new Monomial (m));
+  
+  vector<Monomial> newMonomials;
+  newMonomials.push_back(m); // Bootstrap neighbour generation with m.
+
+  vector<Monomial*>* newNeighbours;
+  Monomial *n;
+  while (newMonomials.size() > 0) {
+    newNeighbours = generateNeighbours (newMonomials, moves);
+    newMonomials.clear();
+    for (unsigned int i=0; i<newNeighbours->size(); i++) {
+      n = newNeighbours->at(i);
+      // Remove stuff that we already know
+      if (!isPresent(*knownMonomials, *n)) {
+	newMonomials.push_back(*n);
+	knownMonomials->push_back(n);
+      }
+      else {
+	delete n;
+	// Now 'n' is invalid, but that should not hurt since the for loop
+	// moves on and will not touch it anymore.
+      }
+    }; // End of the for loop on newNeighbours
+    // Need to free newNeighbours vector that generateNeighbours allocated
+    delete newNeighbours;
+  }; // while loop on newMonomials
+  // done, return the component
+  return knownMonomials;
 };
+
+
