@@ -64,6 +64,7 @@ Monomial::Monomial (const string& s) {
   while ( ss >> word ) {
     exponents->push_back(atoi(word.c_str()));
   };
+  length = exponents->size();
 }
 
 Monomial::Monomial (const Monomial& m) : length(m.length){
