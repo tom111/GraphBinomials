@@ -36,7 +36,6 @@ vector<Monomial*>* generateNeighbours (const vector<Monomial>& base, const vecto
 	myMonomial = base[j].applyBinomialSafe(steps[i]);
 	if (isPresent(*result, *myMonomial)) {
 	  delete myMonomial;
-	  break;
 	}
 	else {
 	  result->push_back(myMonomial);
@@ -48,7 +47,6 @@ vector<Monomial*>* generateNeighbours (const vector<Monomial>& base, const vecto
 	myMonomial = base[j].applyBinomialSafeReverse(steps[i]);
 	if (isPresent (*result, *myMonomial)) {
 	  delete myMonomial;
-	  break;
 	} 
 	else {
 	  result->push_back(myMonomial);
