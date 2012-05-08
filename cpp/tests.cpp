@@ -69,8 +69,8 @@ void t2 () {
   cout << inSameComponent (*m1.head, *m1.tail, edges) << endl;
   
   // Choose some high multipliers
-  Monomial mp1("1 1 1 1 1 2 1 1 6 3 1 2 1 1 1 1");
-  Monomial mp2("1 1 1 1 1 1 1 2 1 1 1 2 3 1 6 1"); 
+  Monomial mp1("0 0 0 1 1 2 1 1 6 3 1 2 0 0 1 1");
+  Monomial mp2("1 0 0 0 0 0 1 2 1 1 1 2 3 1 6 1"); 
   // Should be same degree.
   
   Monomial *t1 = mp1.multiply(*m1.head);
@@ -95,7 +95,7 @@ void t3(){
   for (unsigned int i = 0; i< component->size(); i++) {
     cout << component->at(i)->toString() << endl;
   }
-  assert (component->size() == 5);
+  assert (component->size() == 7);
 }
 
 int main(){
