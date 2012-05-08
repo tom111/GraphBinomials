@@ -32,6 +32,9 @@
 
 using namespace std;
 
+bool isPresent (const std::vector<Monomial>& list, const Monomial& element);
+bool isPresent (const std::vector<Monomial*>& list, const Monomial& element);
+
 std::vector<Monomial*>* generateNeighbours (const vector<Monomial>& base, const vector<Binomial>& steps);
 bool inSameComponent (const Monomial& m1, const Monomial& m2, const vector<Binomial>& moves);
 std::vector<Monomial*>* enumerateComponent (const Monomial& m, const std::vector<Binomial>& moves);
