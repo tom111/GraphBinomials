@@ -12,6 +12,18 @@
 
 using namespace std;
 
+bool sameListOfMonomials (const vector<Monomial*>& l1, const vector<Monomial*>& l2) {
+  // Check if two lists of monomials are the same by checking if each element
+  // of either list is present in the other list.
+  for (unsigned int i=0; i<l1.size(); i++){
+    if (!isPresent(l2, *l1[i])) { return false; }
+  }
+  for (unsigned int i=0; i<l2.size(); i++){
+    if (!isPresent(l1, *l2[i])) { return false; }
+  }
+  return true;
+}
+
 void t1 () {
   // The simplest example: <x^2 - xy, xy - y^2>
   Monomial m1("2 0");
@@ -98,9 +110,39 @@ void t3(){
   assert (component->size() == 7);
 }
 
+void t4(){
+  // K22 Example
+  // Checking connected components.
+  Binomial b1("-1 0 1 0 0 0 0 0 1 0 -1 0 0 0 0 0");
+  Binomial b2("0 -1 0 1 0 0 0 0 0 1 0 -1 0 0 0 0");
+  Binomial b3("0 0 0 0 -1 0 1 0 0 0 0 0 1 0 -1 0");
+  Binomial b4("0 0 0 0 0 -1 0 1 0 0 0 0 0 1 0 -1");
+  Binomial b5("-1 1 0 0 1 -1 0 0 0 0 0 0 0 0 0 0");
+  Binomial b6("0 0 -1 1 0 0 1 -1 0 0 0 0 0 0 0 0");
+  Binomial b7("0 0 0 0 0 0 0 0 -1 1 0 0 1 -1 0 0");
+  Binomial b8("0 0 0 0 0 0 0 0 0 0 -1 1 0 0 1 -1");
+  
+  vector<Binomial> edges;
+  edges.push_back(b1); edges.push_back(b2); edges.push_back(b3);
+  edges.push_back(b4); edges.push_back(b5); edges.push_back(b6);
+  edges.push_back(b7); edges.push_back(b8);
+
+  Monomial mp1("0 0 0 1 1 2 1 1 6 3 1 2 0 0 1 1");
+  vector<Monomial*>* c1 = enumerateComponent(mp1, edges);
+  vector<Monomial*>* c2 = enumerateComponent(*c1->at(c1->size()-2), edges);
+  vector<Monomial*>* c3 = enumerateComponent(*c1->at(c1->size()-3), edges);
+  vector<Monomial*>* c4 = enumerateComponent(*c1->at(c1->size()-22), edges);
+
+  assert (sameListOfMonomials (*c1,*c2));
+  assert (sameListOfMonomials (*c2,*c3));
+  assert (sameListOfMonomials (*c3,*c4));
+  assert (sameListOfMonomials (*c4,*c1));
+}
+
 int main(){
   t1();
   t2();
   t3();
+  t4();
   return 0;
 }
