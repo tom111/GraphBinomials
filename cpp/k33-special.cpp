@@ -27,8 +27,8 @@ int main() {
   }
 
   cout << "The proposed move has these two monomials: " << endl;
-  cout << "Head: " << markov->at(10).head->toString() << endl;
-  cout << "Tail: " << markov->at(10).tail->toString() << endl;
+  cout << "Head: " << markov->at(8).head->toString() << endl;
+  cout << "Tail: " << markov->at(8).tail->toString() << endl;
   
   // These two are not connected:
   Monomial m11("1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0 0 0 0 0 1 0 0");
