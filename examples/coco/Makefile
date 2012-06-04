@@ -3,17 +3,16 @@ CC=g++
 CFLAGS=-c -Wall -fPIC
 OPT=-O3
 #LDFLAGS=
-SOURCES=../monomial.cpp ../binomial.cpp ../graphbinomial.cpp ../fileIO.cpp
+SOURCES=coco-check.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 
-coco4: coco4.cpp $(SOURCES)
-	$(CC) $(OPT) $(SOURCES) coco4.cpp -o coco4
+all: coco-check
 
-coco-check: coco-check.cpp $(SOURCES)
-	$(CC) $(OPT) $(SOURCES) coco-check.cpp -o coco-check
+coco-check: coco-check.o
+	$(CXX) -lgraphbinomial -o coco-check coco-check.o
 
 .cpp.o:
 	$(CC) $(CFLAGS) $(OPT) $< -o $@
 
 clean:
-	rm -rf *.o *.so tests
+	rm -rf *.o *.so tests coco-check

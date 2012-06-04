@@ -6,10 +6,10 @@
 
 #include <assert.h>
 
-#include "../monomial.h"
-#include "../binomial.h"
-#include "../graphbinomial.h"
-#include "../fileIO.h"
+#include "graphbinomials/monomial.h"
+#include "graphbinomials/binomial.h"
+#include "graphbinomials/graphbinomial.h"
+#include "graphbinomials/fileIO.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ using namespace std;
 
 // The input data
 vector<Binomial> *edges = read4ti2File ("./coco-moves");
-vector<Binomial> *toCheck = read4ti2File ("./reality-check");
+vector<Binomial> *toCheck = read4ti2File ("./lattice-differences");
 
 int main() {
   cout << "There are " << edges->size() << " moves and " 
