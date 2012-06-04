@@ -3,10 +3,10 @@
 #include <vector>
 #include <iostream>
 
-#include "monomial.h"
-#include "binomial.h"
-#include "graphbinomial.h"
-#include "fileIO.h"
+#include "graphbinomials/monomial.h"
+#include "graphbinomials/binomial.h"
+#include "graphbinomials/graphbinomial.h"
+#include "graphbinomials/fileIO.h"
 
 using namespace std;
 
