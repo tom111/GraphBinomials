@@ -34,20 +34,20 @@ vector<int> hVector (const vector<Monomial*>& mons){
   // For now we assume that all monomials are of a fixed degree
   vector<int> result; // will be inverted before returning
   int d = mons.at(0)->degree(); // socle degree should be fixed
-  cout << "socle degree: " << d << endl;
+  // cout << "socle degree: " << d << endl;
   for (unsigned int i =0; i<mons.size(); i++){
     assert (d == mons.at(i)->degree());
   }
   result.push_back(mons.size());// CM-type
-  cout << "CM-type: " << mons.size() << endl;
+  // cout << "CM-type: " << mons.size() << endl;
   vector<Monomial*> *current = listBelow(mons);
   vector<Monomial*> *next;
   while (current->size()>0) {
-    cout << "Current round of monomials" << endl;
-    for (unsigned int kk=0; kk<current->size(); kk++){
-      cout << current->at(kk)->toString() << endl;
-    }
-    cout << "---" << endl;
+    // cout << "Current round of monomials" << endl;
+    // for (unsigned int kk=0; kk<current->size(); kk++){
+    //      cout << current->at(kk)->toString() << endl;
+    // }
+    // cout << "---" << endl;
     result.push_back(current->size());
     next = listBelow(*current);
     delete current;
@@ -59,4 +59,10 @@ vector<int> hVector (const vector<Monomial*>& mons){
     realresult.push_back(result.at(s-i-1));
   }
   return realresult;
+}
+
+void hVectors (const int degree, const int type, const int numvars){
+  // Need all combinations of type many monomials in numvars variables
+  // of given degree
+  
 }

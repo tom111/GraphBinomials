@@ -37,6 +37,8 @@ vector<Monomial*>* listBelow (const std::vector<Monomial*>& mons);
 
 vector<int> hVector (const vector<Monomial*>& mons);
 
+void hVectors (const int degree, const int type, const int numvars);
+
 // vector<Monomial*>* orderIdeal (const std::vector<Monomial*>& gens);
 
 #endif

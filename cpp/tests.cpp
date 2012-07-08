@@ -161,7 +161,25 @@ void t6(){
   vector<int> h = hVector(*start);
   cout << "-----hVector--------" << endl;
   for (unsigned int i=0; i<h.size(); i++){
-    cout << h.at(i) << endl;
+    cout << h.at(i) << " ";
+  }
+
+  Monomial m2("3 8 7 6 9");
+  Monomial m3("3 7 8 9 6");  
+  Monomial m4("9 3 8 7 6");
+  Monomial m5("8 7 3 6 9");
+
+  delete start;
+  start = new vector<Monomial*>;
+  start->push_back(&m2);
+  start->push_back(&m3);
+  start->push_back(&m4);
+  start->push_back(&m5);
+
+  cout << "Computing a larger h-vector:" << endl;
+  h = hVector(*start);
+  for (unsigned int i=0; i<h.size(); i++){
+    cout << h.at(i) << " ";
   }
 }
 
