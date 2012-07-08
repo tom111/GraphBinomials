@@ -9,6 +9,7 @@
 #include "monomial.h"
 #include "binomial.h"
 #include "graphbinomial.h"
+#include "orderIdeals.h"
 
 using namespace std;
 
@@ -139,10 +140,37 @@ void t4(){
   assert (sameListOfMonomials (*c4,*c1));
 }
 
+void t5(){
+  Monomial m1("3 2 1");
+  vector<Monomial*> *below = m1.listBelow();
+  vector<Monomial*> *below2 = listBelow(*below);
+  cout << "-----start--------" << endl;
+  for (unsigned int i=0; i<below->size(); i++){
+    cout << below->at(i)->toString() << endl;
+  }
+  cout << "-----next--------" << endl;
+  for (unsigned int i=0; i<below2->size(); i++){
+    cout << below2->at(i)->toString() << endl;
+  }
+}
+
+void t6(){
+  Monomial m1("3 2 1");
+  vector<Monomial*> *start = new vector<Monomial*>;
+  start->push_back(&m1);
+  vector<int> h = hVector(*start);
+  cout << "-----hVector--------" << endl;
+  for (unsigned int i=0; i<h.size(); i++){
+    cout << h.at(i) << endl;
+  }
+}
+
 int main(){
   t1();
   t2();
   t3();
   t4();
+  t5();
+  t6();
   return 0;
 }

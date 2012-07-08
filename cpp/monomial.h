@@ -28,7 +28,6 @@
 #include <string>
 #include <vector>
 
-
 // Forward reference to Binomial
 class Binomial;
 
@@ -61,6 +60,7 @@ class Monomial {
   Monomial* multiply (const Monomial& m) const;
   //  Monomial* divide (Monomial *m);
   long degree() const;
+  std::vector<Monomial*>* listBelow () const;
 
   bool operator== (const Monomial& m) const;
   Monomial* applyBinomialSafe (const Binomial& b) const;

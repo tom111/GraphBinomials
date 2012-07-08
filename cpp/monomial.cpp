@@ -30,6 +30,7 @@
 
 #include "binomial.h"
 #include "monomial.h"
+#include "graphbinomial.h"
 
 using namespace std;
 
@@ -109,6 +110,27 @@ Monomial* Monomial::multiply (const Monomial& m) const {
   return new Monomial (length, newexpo);
 }
 // Monomial* Monomial::divide (Monomial *m);
+
+vector<Monomial*>* Monomial::listBelow () const {
+  // Return a list of monomials below the monomial
+  vector<Monomial*>* res = new vector<Monomial*>;
+  // Stack copy of exponents to manipulate
+  vector<int> newexpo;
+  for (int i=0; i<length; i++) {
+    newexpo.push_back(exponents->at(i));
+  }
+  // new_expo contains a copy of exponents
+  for (int i=0; i<length; i++) {
+    if (newexpo[i] > 0) {
+      // divide by the variable and push to the result vector
+      newexpo[i] -= 1;
+      res->push_back(new Monomial(newexpo));
+      // restore state
+      newexpo[i] += 1;
+    }
+  }
+  return res;
+}
 
 long Monomial::degree() const {
   long result = 0;
