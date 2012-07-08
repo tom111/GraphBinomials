@@ -187,3 +187,4 @@ bool Monomial::isProper () const {
   }
   return true;
 };
+

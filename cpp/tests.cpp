@@ -176,11 +176,45 @@ void t6(){
   start->push_back(&m4);
   start->push_back(&m5);
 
+  cout << endl;
   cout << "Computing a larger h-vector:" << endl;
   h = hVector(*start);
   for (unsigned int i=0; i<h.size(); i++){
     cout << h.at(i) << " ";
   }
+  cout << endl;
+  cout.flush();
+}
+
+void t6_2(){
+  Monomial m2("3 3 1 0 7 1 4 1 3");
+  Monomial m3("3 7 1 3 0 3 1 4 1");  
+  Monomial m4("3 1 3 3 0 7 4 1 1");
+  Monomial m5("3 0 3 7 3 1 1 4 1");
+
+  vector<Monomial*> *start = new vector<Monomial*>;
+  start->push_back(&m2);
+  start->push_back(&m3);
+  start->push_back(&m4);
+  start->push_back(&m5);
+
+  cout << endl;
+  cout << "Computing a larger h-vector:" << endl;
+  vector<int> h = hVector(*start);
+  for (unsigned int i=0; i<h.size(); i++){
+    cout << h.at(i) << " ";
+  }
+  cout << endl;
+  cout.flush();
+}
+
+void t7(){
+  cout << "Monomials of degree 2 in 4 variables: " << endl;
+  vector<Monomial*> *mons = allMonomials(2, 4);
+  for (unsigned int i=0; i<mons->size(); i++){
+    cout << mons->at(i)->toString() << endl;
+  }
+  assert(binomialCoefficient(100,5)==75287520);
 }
 
 int main(){
@@ -189,6 +223,8 @@ int main(){
   t3();
   t4();
   t5();
-  t6();
+  t6(); // approximately seven seconds
+  // t6_2(); // very long ...
+  t7();
   return 0;
 }

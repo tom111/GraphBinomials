@@ -8,19 +8,20 @@ cflags=${CFLAGS} -c -Wall -fPIC
 opt=-O3
 ldflags=${LDFLAGS} 
 SOURCES=monomial.cpp binomial.cpp graphbinomial.cpp fileIO.cpp orderIdeals.cpp
+HEADERS=$(SOURCES:.cpp=.h)
 OBJECTS=$(SOURCES:.cpp=.o)
 LIBRARY=libgraphbinomial.so.0
 SONAME=libgraphbinomial.so.0
 
-all: $(SOURCES) $(LIBRARY) tests
+all: $(HEADERS) $(SOURCES) $(LIBRARY) tests
 
-tests:	tests.cpp $(SOURCES)
+tests:	tests.cpp $(SOURCES) $(HEADERS)
 	$(CXX) -Wall -ggdb $(SOURCES) tests.cpp -o tests
 
-debug: debug.cpp $(SOURCES)
+debug: debug.cpp $(SOURCES) $(HEADERS)
 	$(CC) $(SOURCES) debug.cpp -o debug
 
-$(LIBRARY): $(OBJECTS)
+$(LIBRARY): $(OBJECTS) $(HEADERS)
 	$(CXX) $(ldflags) -shared -Wl,-soname,$(SONAME) $(OBJECTS) -o $@
 
 .cpp.o:
