@@ -18,6 +18,12 @@ all: $(HEADERS) $(SOURCES) $(LIBRARY) tests
 tests:	tests.cpp $(SOURCES) $(HEADERS)
 	$(CXX) -Wall -ggdb $(SOURCES) tests.cpp -o tests
 
+alex:	alex.cpp $(SOURCES) $(HEADERS)
+	$(CXX) -Wall -O3 $(SOURCES) alex.cpp -o alex
+
+play:	play.cpp $(SOURCES) $(HEADERS)
+	$(CXX) -Wall -O3 $(SOURCES) play.cpp -o play
+
 debug: debug.cpp $(SOURCES) $(HEADERS)
 	$(CC) $(SOURCES) debug.cpp -o debug
 
@@ -28,4 +34,4 @@ $(LIBRARY): $(OBJECTS) $(HEADERS)
 	$(CXX) $(cflags) $(opt) $< -o $@
 
 clean:
-	rm -rf *.o *.so tests
+	rm -rf *.o *.so tests alex play

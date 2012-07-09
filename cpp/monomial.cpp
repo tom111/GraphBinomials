@@ -34,13 +34,17 @@
 
 using namespace std;
 
+int Monomial::n = 0;
+
 Monomial::Monomial (long llength) : length(llength) {
+  n++;
   // Create the monomial with zero exponents
   exponents = new vector<int>;
   for (int i=0; i<length; i++){ exponents->push_back(0); };
 };
 
 Monomial::Monomial (long llength, const vector<int>& expo) : length(llength) {
+  n++;
   exponents = new vector<int>;
   for (int i=0; i < length; i++){
     // length of expo is not confirmed
@@ -49,6 +53,7 @@ Monomial::Monomial (long llength, const vector<int>& expo) : length(llength) {
 };
 
 Monomial::Monomial (const vector<int>& expo) : length(expo.size()) {
+  n++;
   exponents = new vector<int>;
   for (int i=0; i < length; i++){
     // length of expo is not confirmed
@@ -57,7 +62,8 @@ Monomial::Monomial (const vector<int>& expo) : length(expo.size()) {
 }
 
 Monomial::Monomial (const string& s) {
-    // This constructor assumes the string s is a single line containing space
+  n++;
+  // This constructor assumes the string s is a single line containing space
   // separated values of the exponent vector.
   istringstream ss (s);
   string word;
@@ -69,11 +75,13 @@ Monomial::Monomial (const string& s) {
 }
 
 Monomial::Monomial (const Monomial& m) : length(m.length){
+  n++;
   // Copy the given monomial using the copy constructor of std::vector
   exponents = new vector<int>(*m.exponents);
 };
 
 Monomial::~Monomial (){
+  n--;
   delete exponents;
 };
 

@@ -1,5 +1,6 @@
 // Implementation of orderIdeals library
 
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 
@@ -10,6 +11,16 @@
 #include "Combinations.h"
 
 using namespace std;
+
+bool isPresent (const vector< vector<int> >& list, const vector<int>& element){
+  for (unsigned int i=0; i<list.size(); i++){
+    if (element==(list[i])) {
+      return true;
+    };
+  };
+  return false;
+};
+
 
 vector<Monomial*>* allMonomials (const int degree, const int numvars) {
   // Lists all monomials of a given digree in given number of
@@ -51,9 +62,11 @@ vector<Monomial*>* listBelow (const vector<Monomial*>& mons) {
       // Check if that monomial is already known...
       if (! isPresent (*res, *belowCurrent->at(j))) {
 	// add it
-	res->push_back (new Monomial (*belowCurrent->at(j)));
+	res->push_back (belowCurrent->at(j));
       }
-      delete belowCurrent->at(j);
+      else {
+	delete belowCurrent->at(j);
+      }
     }
     // The following does not call destructors because pointers are saved.
     delete belowCurrent;
@@ -81,6 +94,7 @@ vector<Monomial*>* listBelowPure (const vector<Monomial*>& mons) {
     }
     delete candidates->at(i);
   }
+  delete candidates;
   return res;
 }
 
@@ -90,7 +104,7 @@ vector<int> hVector (const vector<Monomial*>& mons){
   vector<int> result; // will be inverted before returning
   int d = mons.at(0)->degree(); // socle degree should be fixed
   long n = mons.at(0)->length;
-  // cout << "socle degree: " << d << endl;
+  // cout << "socle degree: " << d << endl; cout.flush();
   for (unsigned int i =0; i<mons.size(); i++){
     assert (d == mons.at(i)->degree());
   }
@@ -107,7 +121,6 @@ vector<int> hVector (const vector<Monomial*>& mons){
   while (current->size()>0) {
     // cout << "now at degree : " << d-- << endl;
     d--;
-    cout.flush();
     numberOfMonomials = binomialCoefficient(n-1+d-1,n-1); // in the layer _below_
     // cout << "Current round of monomials" << endl;
     // for (unsigned int kk=0; kk<current->size(); kk++){
@@ -124,14 +137,21 @@ vector<int> hVector (const vector<Monomial*>& mons){
       // cout << "chose standard ";
       next = listBelow(*current);
     }
+    for (unsigned int i =0; i<current->size(); i++){
+      delete current->at(i);
+    }
     delete current;
     current = next;
     // cut-off if all monomials are exhausted:
     if (next->size() == numberOfMonomials){
       // cout << "CutOff reached";
-      for (int i = d; i >= 0; i--){
+      for (int i = d-1; i >= 0; i--){
 	result.push_back (binomialCoefficient(n-1+i, n-1));
       }
+      for (unsigned int i = 0; i < next->size();  i++ ){
+	delete next->at(i);
+      }
+      delete next;
       break;
     }
   }
@@ -143,8 +163,49 @@ vector<int> hVector (const vector<Monomial*>& mons){
   return realresult;
 }
 
-void hVectors (const int degree, const int type, const int numvars){
+void hVectors (const int degree, const int type, const int numvars, const vector<int> *candidate){
   // Need all combinations of type many monomials in numvars variables
   // of given degree
-  
+  vector<Monomial*> *allMons = allMonomials(degree, numvars);
+  Combinations C(type, allMons->size());
+  vector<Monomial*> *currentSocle;
+  vector< vector<int> > result;
+  long todo = binomialCoefficient(allMons->size(),type);
+  long counter = 0;
+  do {
+//     // Informative output ?
+//     if (counter++ % 10000 == 0){
+//       cout << "Checking socle number " << counter << " out of " << todo << endl;
+//     }
+    currentSocle = new vector<Monomial*>;
+    for (int i=0; i<type; i++){
+      currentSocle->push_back (allMons->at(C(i)));
+    }
+//     cout << "Current socle" << endl;
+//     for (unsigned int i=0; i< currentSocle->size(); i++){
+//       cout << currentSocle->at(i)->toString() << endl;
+//     }
+//     cout << "-----------------------------" << endl;
+    vector<int> h = hVector(*(currentSocle));
+    if (! isPresent (result, h)){
+      if (candidate != 0 && h == *candidate) {
+	cout << "Jackpot, Candidate found !!!" << endl;
+	exit(0);
+      }
+      result.push_back(h);
+      cout << "Current number of different h vectors : " << result.size() << endl;
+      // A useful count for leak detection:
+      // cout << "Current number of monomials around: " << Monomial::n << endl;
+    }
+    // Just delete the socle data structure, it's content is preserved
+    // since it also lives in allMons
+    delete currentSocle;
+    } while (C.next());
+  for (unsigned int i = 0; i <  result.size(); i++){
+    for (unsigned int j = 0; j <  result.at(i).size(); j++){
+      cout << result.at(i).at(j) << " ";
+    }
+    cout << endl;
+    cout.flush();
+  }
 }

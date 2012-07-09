@@ -152,25 +152,31 @@ void t5(){
   for (unsigned int i=0; i<below2->size(); i++){
     cout << below2->at(i)->toString() << endl;
   }
+  cout << endl;
 }
 
 void t6(){
-  Monomial m1("3 2 1");
-  vector<Monomial*> *start = new vector<Monomial*>;
+  Monomial m1("0 2 1");
+  Monomial m2("0 3 0");
+  Monomial m3("0 0 3");  vector<Monomial*> *start = new vector<Monomial*>;
   start->push_back(&m1);
+  start->push_back(&m2);
+  start->push_back(&m3);
   vector<int> h = hVector(*start);
   cout << "-----hVector--------" << endl;
   for (unsigned int i=0; i<h.size(); i++){
     cout << h.at(i) << " ";
   }
+  cout << endl;
+}
 
+void t6_2() {
   Monomial m2("3 8 7 6 9");
   Monomial m3("3 7 8 9 6");  
   Monomial m4("9 3 8 7 6");
   Monomial m5("8 7 3 6 9");
 
-  delete start;
-  start = new vector<Monomial*>;
+  vector<Monomial*> *start = new vector<Monomial*>;
   start->push_back(&m2);
   start->push_back(&m3);
   start->push_back(&m4);
@@ -178,7 +184,7 @@ void t6(){
 
   cout << endl;
   cout << "Computing a larger h-vector:" << endl;
-  h = hVector(*start);
+  vector<int> h = hVector(*start);
   for (unsigned int i=0; i<h.size(); i++){
     cout << h.at(i) << " ";
   }
@@ -186,7 +192,7 @@ void t6(){
   cout.flush();
 }
 
-void t6_2(){
+void t6_3(){
   Monomial m2("3 3 1 0 7 1 4 1 3");
   Monomial m3("3 7 1 3 0 3 1 4 1");  
   Monomial m4("3 1 3 3 0 7 4 1 1");
@@ -217,6 +223,20 @@ void t7(){
   assert(binomialCoefficient(100,5)==75287520);
 }
 
+void t8 (){
+  int d = 4;
+  int t = 4;
+  int n = 4;
+  vector<int> *h = new vector<int>;
+  h->push_back(1);
+  h->push_back(3);
+  h->push_back(5);
+  h->push_back(5);
+  h->push_back(4);
+  // hVectors (d, t, n, h);  // This will break execution of tests
+  hVectors (d, t, n);
+}
+
 int main(){
   t1();
   t2();
@@ -224,7 +244,9 @@ int main(){
   t4();
   t5();
   t6(); // approximately seven seconds
-  // t6_2(); // very long ...
-  t7();
+  // t6_2(); // long ...
+  // t6_3(); // very long ...
+  // t7();
+  t8();
   return 0;
 }
