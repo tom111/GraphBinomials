@@ -21,6 +21,9 @@ tests:	tests.cpp $(SOURCES) $(HEADERS)
 alex:	alex.cpp $(SOURCES) $(HEADERS)
 	$(CXX) -Wall -O3 $(SOURCES) alex.cpp -o alex
 
+matteo:	matteo.cpp $(SOURCES) $(HEADERS)
+	$(CXX) -Wall -O3 $(SOURCES) matteo.cpp -o matteo
+
 play:	play.cpp $(SOURCES) $(HEADERS)
 	$(CXX) -Wall -O3 $(SOURCES) play.cpp -o play
 
@@ -34,4 +37,4 @@ $(LIBRARY): $(OBJECTS) $(HEADERS)
 	$(CXX) $(cflags) $(opt) $< -o $@
 
 clean:
-	rm -rf *.o *.so tests alex play
+	rm -rf *.o *.so tests alex matteo play

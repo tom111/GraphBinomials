@@ -50,6 +50,7 @@ inline unsigned long binomialCoefficient (int N, int k) {
 vector<int> hVector (const vector<Monomial*>& mons);
 
 void hVectors (const int degree, const int type, const int numvars, const vector<int> *candidate = 0);
+void listOrderIdeals (const int degree, const int type, const int numvars, const vector<int>& hV);
 
 // vector<Monomial*>* orderIdeal (const std::vector<Monomial*>& gens);
 

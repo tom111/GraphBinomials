@@ -174,9 +174,9 @@ void hVectors (const int degree, const int type, const int numvars, const vector
   long counter = 0;
   do {
 //     // Informative output ?
-//     if (counter++ % 10000 == 0){
-//       cout << "Checking socle number " << counter << " out of " << todo << endl;
-//     }
+    if (counter++ % 10000 == 0){
+      cout << "Checking socle number " << counter << " out of " << todo << endl;
+    }
     currentSocle = new vector<Monomial*>;
     for (int i=0; i<type; i++){
       currentSocle->push_back (allMons->at(C(i)));
@@ -189,7 +189,11 @@ void hVectors (const int degree, const int type, const int numvars, const vector
     vector<int> h = hVector(*(currentSocle));
     if (! isPresent (result, h)){
       if (candidate != 0 && h == *candidate) {
-	cout << "Jackpot, Candidate found !!!" << endl;
+	cout << "The given vector is a pure O-sequence." << endl;
+	cout << "Here is one socle that does it: " << endl;
+	for (unsigned int i = 0; i<currentSocle->size(); i++){
+	  cout << currentSocle->at(i)->toString() << endl;
+	}
 	exit(0);
       }
       result.push_back(h);
@@ -204,6 +208,46 @@ void hVectors (const int degree, const int type, const int numvars, const vector
   for (unsigned int i = 0; i <  result.size(); i++){
     for (unsigned int j = 0; j <  result.at(i).size(); j++){
       cout << result.at(i).at(j) << " ";
+    }
+    cout << endl;
+    cout.flush();
+  }
+}
+
+
+void listOrderIdeals (const int degree, const int type, const int numvars, const vector<int>& hV){
+  // Need all combinations of type many monomials in numvars variables
+  // of given degree
+  vector<Monomial*> *allMons = allMonomials(degree, numvars);
+  Combinations C(type, allMons->size());
+  vector<Monomial*> *currentSocle;
+  vector< vector<Monomial*>* > result;
+  long todo = binomialCoefficient(allMons->size(),type);
+  long counter = 0;
+  do {
+//     // Informative output ?
+    if (counter++ % 10000 == 0){
+      cout << "Checking socle number " << counter << " out of " << todo << endl;
+    }
+    currentSocle = new vector<Monomial*>;
+    for (int i=0; i<type; i++){
+      currentSocle->push_back (allMons->at(C(i)));
+    }
+//     cout << "Current socle" << endl;
+//     for (unsigned int i=0; i< currentSocle->size(); i++){
+//       cout << currentSocle->at(i)->toString() << endl;
+//     }
+//     cout << "-----------------------------" << endl;
+    vector<int> h = hVector(*(currentSocle));
+    if (h == hV) {
+      result.push_back(currentSocle);
+      cout << "Found an instance! Count so far: " << result.size() << endl;
+    }
+    else { delete currentSocle; }
+    } while (C.next());
+  for (unsigned int i = 0; i <  result.size(); i++){
+    for (unsigned int j = 0; j <  result.at(i)->size(); j++){
+      cout << result.at(i)->at(j)->toString() << endl;
     }
     cout << endl;
     cout.flush();
