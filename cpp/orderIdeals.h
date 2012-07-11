@@ -35,18 +35,6 @@ using namespace std;
 vector<Monomial*>* listBelow (const std::vector<Monomial*>& mons); 
 vector<Monomial*>* allMonomials (const int degree, const int numvars);
 
-inline unsigned long binomialCoefficient (int N, int k) {
-  if (k<0) {return 0;};
-  if (k>N) {return 0;};
-  if ((N-k) < k) { k = N-k;}
-  int result = 1;
-  for (int i=1; i < k+1; i++){
-    result *= N-k+i;
-    result /= i;
-  }
-  return result;
-}
-
 vector<int> hVector (const vector<Monomial*>& mons);
 
 void enumeratePureOSequences (const int degree, const int type, const int numvars);

@@ -10,6 +10,7 @@
 #include "graphbinomial.h"
 #include "Combinations.h"
 #include "tool.h"
+#include "binomialCoefficients.h"
 
 using namespace std;
 
@@ -108,7 +109,7 @@ vector<int> hVector (const vector<Monomial*>& mons){
 
   vector<Monomial*> *current = listBelow(mons);
   vector<Monomial*> *next;
-  unsigned int numberOfMonomials;
+  unsigned long long numberOfMonomials;
   while (current->size()>0) {
     // cout << "now at degree : " << d-- << endl;
     d--;
@@ -137,7 +138,7 @@ vector<int> hVector (const vector<Monomial*>& mons){
     if (next->size() == numberOfMonomials){
       // cout << "CutOff reached";
       for (int i = d-1; i >= 0; i--){
-	result.push_back (binomialCoefficient(n-1+i, n-1));
+	result.push_back (binomialCoefficient(n-1+i,n-1));
       }
       for (unsigned int i = 0; i < next->size();  i++ ){
 	delete next->at(i);
@@ -161,7 +162,7 @@ void enumeratePureOSequences (const int degree, const int type, const int numvar
   Combinations C(type, allMons->size());
   vector<Monomial*> *currentSocle;
   vector< vector<int> > result;
-  long todo = binomialCoefficient(allMons->size(),type);
+  unsigned long long todo = binomialCoefficient(allMons->size(),type);
   long counter = 0;
   do {
     // Informative output ?
@@ -211,7 +212,7 @@ void isPureOSequence (const vector<int>& candidate){
   vector<Monomial*> *allMons = allMonomials(degree, numvars);
   Combinations C(type, allMons->size());
   vector<Monomial*> *currentSocle;
-  long todo = binomialCoefficient(allMons->size(),type);
+  unsigned long long todo = binomialCoefficient(allMons->size(),type);
   long counter = 0;
   do {
     // Informative output ?
@@ -252,8 +253,8 @@ void listOrderIdeals (const int degree, const int type, const int numvars, const
   Combinations C(type, allMons->size());
   vector<Monomial*> *currentSocle;
   vector< vector<Monomial*>* > result;
-  long todo = binomialCoefficient(allMons->size(),type);
-  long counter = 0;
+  unsigned long todo = binomialCoefficient(allMons->size(),type);
+  unsigned long counter = 0;
   do {
 //     // Informative output ?
     if (counter++ % 10000 == 0){

@@ -10,6 +10,7 @@
 #include "binomial.h"
 #include "graphbinomial.h"
 #include "orderIdeals.h"
+#include "binomialCoefficients.h"
 
 using namespace std;
 
@@ -221,6 +222,7 @@ void t7(){
     cout << mons->at(i)->toString() << endl;
   }
   assert(binomialCoefficient(100,5)==75287520);
+  assert(binomialCoefficient(104,5)==91962520);
 }
 
 void t8 (){
@@ -246,7 +248,7 @@ int main(){
   t6(); // approximately seven seconds
   // t6_2(); // long ...
   // t6_3(); // very long ...
-  // t7();
+  t7();
   t8();
   return 0;
 }
