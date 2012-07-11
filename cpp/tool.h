@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -15,3 +16,9 @@ vector<int> stringToVector (const string s){
   return res;
 }
 
+void printIntVector (const vector<int>& v){
+  for (unsigned int i =0; i < v.size(); i++){
+    cout << v[i] << " ";
+  }
+  cout << endl;
+}
