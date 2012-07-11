@@ -9,27 +9,9 @@
 #include "orderIdeals.h"
 #include "graphbinomial.h"
 #include "Combinations.h"
+#include "tool.h"
 
 using namespace std;
-
-bool isPresent (const vector< vector<int> >& list, const vector<int>& element){
-  for (unsigned int i=0; i<list.size(); i++){
-    if (element==(list[i])) {
-      return true;
-    };
-  };
-  return false;
-};
-
-bool isWeaklyIncreasing (const vector<int> *v) {
-  for (unsigned int i=0; i<v->size()-1; i++){
-    if (v->at(i) > v->at(i+1)){
-      return false;
-    }
-  }
-  return true;
-}
-
 
 vector<Monomial*>* allMonomials (const int degree, const int numvars) {
   // Lists all monomials of a given digree in given number of
@@ -172,7 +154,7 @@ vector<int> hVector (const vector<Monomial*>& mons){
   return realresult;
 }
 
-void hVectors (const int degree, const int type, const int numvars, const vector<int> *candidate){
+void enumeratePureOSequences (const int degree, const int type, const int numvars){
   // Need all combinations of type many monomials in numvars variables
   // of given degree
   vector<Monomial*> *allMons = allMonomials(degree, numvars);
@@ -182,38 +164,25 @@ void hVectors (const int degree, const int type, const int numvars, const vector
   long todo = binomialCoefficient(allMons->size(),type);
   long counter = 0;
   do {
-//     // Informative output ?
+    // Informative output ?
     if (counter++ % 10000 == 0){
       cout << "Checking socle number " << counter << " out of " << todo << endl;
     }
     currentSocle = new vector<Monomial*>;
-    // A shortcut to mod out some symmetry: We will skip every loop in
-    // which the first monomial of the socle has an exponent vector
-    // that is not weakly decreasing.
     for (int i=0; i<type; i++){
       currentSocle->push_back (allMons->at(C(i)));
     }
+    // A shortcut to mod out some symmetry: We will skip every loop in
+    // which the first monomial of the socle has an exponent vector
+    // that is not weakly decreasing.
     if (!isWeaklyIncreasing ((*currentSocle)[0]->exponents)) { 
       delete currentSocle;
       continue;
     }
-//     cout << "Current socle" << endl;
-//     for (unsigned int i=0; i< currentSocle->size(); i++){
-//       cout << currentSocle->at(i)->toString() << endl;
-//     }
-//     cout << "-----------------------------" << endl;
-    vector<int> h = hVector(*(currentSocle));
+    vector<int> h = hVector(*currentSocle);
     if (! isPresent (result, h)){
-      if (candidate != 0 && h == *candidate) {
-	cout << "The given vector is a pure O-sequence." << endl;
-	cout << "Here is one socle that does it: " << endl;
-	for (unsigned int i = 0; i<currentSocle->size(); i++){
-	  cout << currentSocle->at(i)->toString() << endl;
-	}
-	exit(0);
-      }
       result.push_back(h);
-      cout << "Current number of different h vectors : " << result.size() << endl;
+      cout << "Current number of different pure O sequences : " << result.size() << endl;
       // A useful count for leak detection:
       // cout << "Current number of monomials around: " << Monomial::n << endl;
     }
@@ -221,13 +190,58 @@ void hVectors (const int degree, const int type, const int numvars, const vector
     // since it also lives in allMons
     delete currentSocle;
     } while (C.next());
+
+  cout << "Result: " << endl;
   for (unsigned int i = 0; i <  result.size(); i++){
     for (unsigned int j = 0; j <  result.at(i).size(); j++){
       cout << result.at(i).at(j) << " ";
     }
     cout << endl;
-    cout.flush();
   }
+  cout << "Total: " << result.size() << " sequences." << endl;
+}
+
+void isPureOSequence (const vector<int>& candidate){
+  // Need all combinations of type many monomials in numvars variables
+  // of given degree
+  const int length= candidate.size();
+  const int degree = length-1;
+  const int numvars = candidate[1];
+  const int type = candidate[length-1];
+  vector<Monomial*> *allMons = allMonomials(degree, numvars);
+  Combinations C(type, allMons->size());
+  vector<Monomial*> *currentSocle;
+  long todo = binomialCoefficient(allMons->size(),type);
+  long counter = 0;
+  do {
+    // Informative output ?
+    if (counter++ % 10000 == 0){
+      cout << "Checking socle number " << counter << " out of " << todo << endl;
+    }
+    currentSocle = new vector<Monomial*>;
+    for (int i=0; i<type; i++){
+      currentSocle->push_back (allMons->at(C(i)));
+    }
+    // A shortcut to mod out some symmetry: We will skip every loop in
+    // which the first monomial of the socle has an exponent vector
+    // that is not weakly decreasing.
+    if (!isWeaklyIncreasing ((*currentSocle)[0]->exponents)) { 
+      delete currentSocle;
+      continue;
+    }
+    vector<int> h = hVector(*currentSocle);  // This should be replaced by a specialized version.
+    if (h == candidate) {
+      cout << "The given vector is a pure O-sequence." << endl;
+      cout << "Here is one socle that does it: " << endl;
+      for (unsigned int i = 0; i<currentSocle->size(); i++){
+	cout << currentSocle->at(i)->toString() << endl;
+      }
+      delete currentSocle;
+      exit(0);
+    }
+    delete currentSocle;
+  } while (C.next());
+  cout << "Enumeration complete.  The given sequence is not a pure O-sequence." << endl;
 }
 
 

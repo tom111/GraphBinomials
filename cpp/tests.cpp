@@ -233,8 +233,8 @@ void t8 (){
   h->push_back(5);
   h->push_back(5);
   h->push_back(4);
-  // hVectors (d, t, n, h);  // This will break execution of tests
-  hVectors (d, t, n);
+  // enumeratePureOSequences (d, t, n, h);  // This will break execution of tests
+  enumeratePureOSequences (d, t, n);
 }
 
 int main(){

@@ -8,7 +8,7 @@ cflags=${CFLAGS} -c -Wall -fPIC
 opt=-O3
 ldflags=${LDFLAGS} 
 SOURCES=monomial.cpp binomial.cpp graphbinomial.cpp fileIO.cpp orderIdeals.cpp
-HEADERS=$(SOURCES:.cpp=.h)
+HEADERS=$(SOURCES:.cpp=.h) tool.h
 OBJECTS=$(SOURCES:.cpp=.o)
 LIBRARY=libgraphbinomial.so.0
 SONAME=libgraphbinomial.so.0

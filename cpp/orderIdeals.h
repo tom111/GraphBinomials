@@ -25,10 +25,10 @@
 #ifndef ORDERIDEALS_H
 #define ORDERIDEALS_H
 
+#include <vector>
+
 #include "monomial.h"
 #include "graphbinomial.h"
-
-#include <vector>
 
 using namespace std;
 
@@ -49,7 +49,8 @@ inline unsigned long binomialCoefficient (int N, int k) {
 
 vector<int> hVector (const vector<Monomial*>& mons);
 
-void hVectors (const int degree, const int type, const int numvars, const vector<int> *candidate = 0);
+void enumeratePureOSequences (const int degree, const int type, const int numvars);
+void isPureOSequence (const vector<int>& candidate);
 void listOrderIdeals (const int degree, const int type, const int numvars, const vector<int>& hV);
 
 // vector<Monomial*>* orderIdeal (const std::vector<Monomial*>& gens);
