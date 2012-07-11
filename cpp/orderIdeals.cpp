@@ -21,6 +21,15 @@ bool isPresent (const vector< vector<int> >& list, const vector<int>& element){
   return false;
 };
 
+bool isWeaklyDecreasing (const vector<int>& v) {
+  for (unsigned int i=0; i<v.size()-1; i++){
+    if (v->at(i) < v->at(i+1)){
+      return false;
+    }
+  }
+  return true;
+}
+
 
 vector<Monomial*>* allMonomials (const int degree, const int numvars) {
   // Lists all monomials of a given digree in given number of
@@ -178,6 +187,13 @@ void hVectors (const int degree, const int type, const int numvars, const vector
       cout << "Checking socle number " << counter << " out of " << todo << endl;
     }
     currentSocle = new vector<Monomial*>;
+    // A shortcut to mod out some symmetry: We will skip every loop in
+    // which the first monomial of the socle has an exponent vector
+    // that is not weakly decreasing.
+    if (!isWeaklyDecreasing (currentSocle[0]->exponents)) { 
+      delete currentSocle;
+      continue;
+    }
     for (int i=0; i<type; i++){
       currentSocle->push_back (allMons->at(C(i)));
     }
