@@ -11,6 +11,7 @@
 #include "graphbinomial.h"
 #include "orderIdeals.h"
 #include "binomialCoefficients.h"
+#include "Permutations.h"
 
 using namespace std;
 
@@ -239,6 +240,13 @@ void t8 (){
   enumeratePureOSequences (d, t, n);
 }
 
+void t9() {
+  Permutations P(4);
+  do {
+    P.display();
+  } while (P.next());
+}
+
 int main(){
   t1();
   t2();
@@ -250,5 +258,6 @@ int main(){
   // t6_3(); // very long ...
   t7();
   t8();
+  t9();
   return 0;
 }
