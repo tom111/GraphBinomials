@@ -254,17 +254,17 @@ void t10(){
 }
 
 int main(){
-  // t1();
-  // t2();
-  // t3();
-  // t4();
-  // t5();
-  // t6(); // approximately seven seconds
-  // t6_2(); // long ...
-  // t6_3(); // very long ...
-  // t7();
-  // t8();
-  // t9();
+  t1();
+  t2();
+  t3();
+  t4();
+  t5();
+  t6(); // approximately seven seconds
+  t6_2(); // long ...
+  t6_3(); // very long ...
+  t7();
+  t8();
+  t9();
   t10();
   return 0;
 }

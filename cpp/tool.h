@@ -50,5 +50,13 @@ bool isWeaklyIncreasing (const vector<int> *v) {
   return true;
 }
 
+template <class T>
+inline void deleteVector (vector<T*> *v) {
+  for (unsigned int i=0; i<v->size(); i++){
+    delete (*v)[i];
+  }
+  delete v;
+}
+
 
 #endif

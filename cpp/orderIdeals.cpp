@@ -203,7 +203,50 @@ void enumeratePureOSequences (const int degree, const int type, const int numvar
   cout << "Total: " << result.size() << " sequences." << endl;
 }
 
-void isPureOSequence (const vector<int>& candidate){
+// helper for isPureOSequence
+bool isCorrectHVector (const vector<Monomial *>& socle, const vector<int>& candidate){
+  const int length= candidate.size();
+  int d = length-1;
+  const int numvars = candidate[1];
+  // Compute parts of the h-vector until the given sequence disagrees:
+  vector<Monomial*> *currentLayer = listBelow(socle);
+  vector<Monomial*> *next;
+  unsigned long long numberOfMonomials;
+  while (currentLayer->size() > 0) {
+    d--;
+    // cout << "Number of monomials" << numberOfMonomials << endl;
+    // cout << "current->size() " << currentLayer->size() << endl;
+    // printIntVector (candidate);
+    // cout << candidate[d] << endl;
+    if (currentLayer->size() != static_cast<unsigned int> (candidate[d])) {
+      // can skip the rest of the computation, the h-vector does not
+      // match anyway
+      deleteVector (currentLayer); 
+      return false;
+    }
+    numberOfMonomials = binomialCoefficient(numvars-1+d-1,numvars-1); // in the layer _below_
+    // Apply the heuristics:
+    if (currentLayer->size() > numberOfMonomials) { 
+      // cout << "chose Pure ";
+      next = listBelowPure (*currentLayer);
+    }
+    else  {
+      // cout << "chose standard ";
+      next = listBelow(*currentLayer);
+    }
+    deleteVector (currentLayer);
+    currentLayer = next;
+    // cut-off if all monomials in a level are exhausted we are done.
+    if (next->size() == numberOfMonomials && next->size() == static_cast<unsigned int>(candidate[d-1])){
+      deleteVector (next);
+      return true; 
+    }
+  }
+  cout << "WARNING, this point should not be reached " << endl;
+  return true;
+}
+
+bool isPureOSequence (const vector<int>& candidate){
   // Need all combinations of type many monomials in numvars variables
   // of given degree
   const int length= candidate.size();
@@ -231,19 +274,21 @@ void isPureOSequence (const vector<int>& candidate){
       delete currentSocle;
       continue;
     }
-    vector<int> h = hVector(*currentSocle);  // This should be replaced by a specialized version.
-    if (h == candidate) {
-      cout << "The given vector is a pure O-sequence." << endl;
-      cout << "Here is one socle that does it: " << endl;
-      for (unsigned int i = 0; i<currentSocle->size(); i++){
-	cout << currentSocle->at(i)->toString() << endl;
+    if (isCorrectHVector (*currentSocle, candidate)) {
+	cout << "The given vector is a pure O-sequence." << endl;
+	cout << "Here is one socle that does it: " << endl;
+	for (unsigned int i = 0; i<currentSocle->size(); i++){
+	  cout << currentSocle->at(i)->toString() << endl;
+	}
+	delete currentSocle;
+	deleteVector(allMons);
+	return true;
       }
-      delete currentSocle;
-      exit(0);
-    }
     delete currentSocle;
   } while (C.next());
   cout << "Enumeration complete.  The given sequence is not a pure O-sequence." << endl;
+  deleteVector(allMons);
+  return false;
 }
 
 void testAlexRecipe(const vector<int>& a, const int rank, const int type) {
