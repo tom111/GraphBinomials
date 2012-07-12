@@ -9,6 +9,7 @@
 #include "orderIdeals.h"
 #include "graphbinomial.h"
 #include "Combinations.h"
+#include "Permutations.h"
 #include "tool.h"
 #include "binomialCoefficients.h"
 
@@ -243,6 +244,63 @@ void isPureOSequence (const vector<int>& candidate){
     delete currentSocle;
   } while (C.next());
   cout << "Enumeration complete.  The given sequence is not a pure O-sequence." << endl;
+}
+
+void testAlexRecipe(const vector<int>& a, const int rank, const int type) {
+  // Algorithm: for each permutation of the vector a 
+  // enumerate all monomials in 
+  vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
+  Permutations P(a.size());
+  vector < vector <int> > hVectors; // Will store the result
+  do { // for each permutation:
+    // for each permutation the result will be a vector of monomials:
+    vector <Monomial*> currentMonomials;
+    for (unsigned int i=0; i < allMons->size(); i++) {
+      const vector<int>& pattern = *(allMons->at(i)->exponents);
+      vector<int>::const_iterator it = a.begin();
+      vector<int> realexpo(rank);
+      for (unsigned int j = 0; j<pattern.size(); j++) {
+	int totake = pattern[j] + 1; // if the monomial contains a zero we have to take one.
+	while (totake > 0) {
+	  realexpo[j] += *it;
+	  it++;
+	  totake--;
+	}
+	realexpo[j] -= 1; // remember: a_i - 1
+      }
+      // printIntVector (realexpo);
+      currentMonomials.push_back(new Monomial(realexpo));
+    }
+    // At this point we have completed the list of potential socle
+    // monomials.  Now for every choice of type many we compute the
+    // hVector and collect those:
+    Combinations C(type, currentMonomials.size());
+    vector<Monomial*> *currentSocle;
+    do {
+      currentSocle = new vector<Monomial*>;
+      for (int i=0; i<type; i++){
+	currentSocle->push_back (currentMonomials[C(i)]);
+      }
+      vector<int> h = hVector(*currentSocle);
+      if (!isPresent (hVectors, h)) {
+	  hVectors.push_back(h);
+      }
+      delete currentSocle;
+    } while (C.next());
+    // Clean up
+    for (unsigned int i = 0; i<currentMonomials.size(); i++){
+      delete currentMonomials[i];
+    }
+  } while (P.next());
+  for (unsigned int i = 0; i<allMons->size(); i++){
+    delete (*allMons)[i];
+  }
+  delete allMons;
+  cout << "List of h vectors that were found :" << endl;
+  for (unsigned int i = 0; i<hVectors.size(); i++){
+    printIntVector (hVectors[i]);
+  }
+  cout << endl;
 }
 
 

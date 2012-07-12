@@ -12,6 +12,7 @@
 #include "orderIdeals.h"
 #include "binomialCoefficients.h"
 #include "Permutations.h"
+#include "tool.h"
 
 using namespace std;
 
@@ -247,17 +248,23 @@ void t9() {
   } while (P.next());
 }
 
+void t10(){
+  vector<int> a = stringToVector ("5 4 3 2 1");
+  testAlexRecipe (a, 3, 4);
+}
+
 int main(){
-  t1();
-  t2();
-  t3();
-  t4();
-  t5();
-  t6(); // approximately seven seconds
+  // t1();
+  // t2();
+  // t3();
+  // t4();
+  // t5();
+  // t6(); // approximately seven seconds
   // t6_2(); // long ...
   // t6_3(); // very long ...
-  t7();
-  t8();
-  t9();
+  // t7();
+  // t8();
+  // t9();
+  t10();
   return 0;
 }
