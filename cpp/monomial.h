@@ -41,11 +41,8 @@ creation */
 class Monomial {
   // Todo: Decide on a public and private interface separation
  public:
-  static int n;
   long length;
   std::vector<int> *exponents;
-  // exponents should not be too big, so we can save a little memory here by
-  // using int instead of long
 
   Monomial (long llength);
   Monomial (long llength, const std::vector<int>& exponents);
@@ -63,7 +60,14 @@ class Monomial {
   long degree() const;
   std::vector<Monomial*>* listBelow () const;
 
-  bool operator== (const Monomial& m) const;
+  bool operator== (const Monomial& m) const {
+    if (length != m.length) return false;
+    for (int i=0; i<length; i++){
+      if ( (*exponents)[i] != (*m.exponents)[i]) { return false; };
+    };
+    return true;
+  }
+
   Monomial* applyBinomialSafe (const Binomial& b) const;
   Monomial* applyBinomialSafeReverse (const Binomial& b) const;
   bool isProper () const;
