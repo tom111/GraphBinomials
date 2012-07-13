@@ -285,11 +285,65 @@ bool isPureOSequence (const vector<int>& candidate){
   return false;
 }
 
+inline
+bool lastExponentSmaller (Monomial *m1, Monomial *m2){
+  return ((*m1->exponents)[m1->length-1] > (*m2->exponents)[m1->length-1]);
+}
+
+// Maybe we need a total order later?
+inline
+bool backwardLexOrder (Monomial *m1, Monomial *m2) {
+  for (unsigned int i = (m1->length)-1; i>=0; i--) {
+    cout << i << endl;;
+    if ((*m1->exponents)[i] > (*m2->exponents)[i]) {
+      return true;
+    }
+    if ((*m1->exponents)[i] < (*m2->exponents)[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+inline
+bool isAdmissableCombination (const Combinations& c, const vector<int>& rightBoundaries) {
+  // We are looking at combinations in binom (p-d, d) = binom (p,d)
+  // Consider the equation:
+  // bin(p,d) = 1 + bin {d+1,d-1} + bin {d+2,d-1} + ... + bin (p-1,d-1)
+  // and bin the integers from 0 to bin(p,d) accordingly.
+  // A combination is admissiable if it contains one element from each bin
+
+  // For speed the bins are precompupted with another function and passed to here
+
+  // We assume that the combination c is sorted.
+  if (c(0) != 1) {return false;}
+  for (unsigned int i = 1; i<rightBoundaries.size(); i++) {
+    // Need to find one element in [ rightBoundaries[i-1] , rightBoundaries[i] ];
+    bool intervalFound = false;
+    for (unsigned int j=1; j<c.size(); j++){
+      if (c(j) > rightBoundaries[i-1] && c(j) <= rightBoundaries[i]) {
+	// Found an element in the interval: Continue with next interval.
+	intervalFound = true;
+	break; // for loop over c
+      }
+    } // If this for loop ever finishes without breaking, the interval was not represented!
+    if (!intervalFound) {
+      return false;
+    }
+  }
+  return true;
+}
+
 vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const int type) {
   // Algorithm: for each permutation of the vector a 
   // enumerate all monomials in 
   vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
-  Permutations P(a.size());
+  sort (allMons->begin(), allMons->end(), lastExponentSmaller); // Needed for the AdmissableBlocking later
+  vector<int> rightBoundaries; // See isAdmissableCombination for explanations
+  for (unsigned int i=rank-2; i <= a.size()-2; i++){
+    rightBoundaries.push_back(binomialCoefficient(i, rank-2));
+  }
+  Permutations P(a.size());  // Todo: Make a list of already seen permutations
   vector < vector <int> > hVectors; // Will store the result
   do { // for each permutation:
     vector<int> Pa(a.size());
@@ -320,6 +374,9 @@ vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const
     Combinations C(type, currentMonomials->size());
     vector<Monomial*> *currentSocle;
     do {
+      if (!isAdmissableCombination(C, rightBoundaries)) {
+	continue;
+      }
       currentSocle = new vector<Monomial*>;
       for (int i=0; i<type; i++){
 	currentSocle->push_back ((*currentMonomials)[C(i)]);
@@ -343,6 +400,11 @@ vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const
 
 bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate){
   vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
+  sort (allMons->begin(), allMons->end(), lastExponentSmaller); // Needed for the AdmissableBlocking later
+  vector<int> rightBoundaries; // See isAdmissableCombination for explanations
+  for (unsigned int i=rank-2; i <= a.size()-2; i++){
+    rightBoundaries.push_back(binomialCoefficient(i, rank-2));
+  }
   Permutations P(a.size());  // Later: not all permutations are needed
   // e.g. if there are duplicate entries in a -> keep a list of seen a-vectors
   do { // for each permutation:
@@ -374,6 +436,9 @@ bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int t
     Combinations C(type, currentMonomials->size());
     vector<Monomial*> *currentSocle;
     do {
+      if (!isAdmissableCombination(C, rightBoundaries)) {
+	continue;
+      }
       currentSocle = new vector<Monomial*>;
       for (int i=0; i<type; i++){
 	currentSocle->push_back ((*currentMonomials)[C(i)]);

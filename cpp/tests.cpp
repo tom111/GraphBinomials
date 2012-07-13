@@ -226,6 +226,11 @@ void t10(){
   assert (isPureOSequenceAlexRecipe (a,3,4,stringToVector("1 3 6 10 15 20 24 27 27 24 18 11 4")));
 }
 
+void t11(){
+  assert (isAdmissableCombination (stringToVector("1 2 3 4 10 11 12 13 14"), stringToVector("7 10 12")));
+  assert (!isAdmissableCombination (stringToVector("10 11 12 13 14"), stringToVector("7 10 12")));
+}
+
 int main(){
   t1();
   t2();
@@ -233,10 +238,11 @@ int main(){
   t4();
   t5();
   t6(); // approximately seven seconds
-  t6_2(); // long ...
+  // t6_2(); // long ...
   t7();
   t8();
   t9();
   t10();
+  t11();
   return 0;
 }
