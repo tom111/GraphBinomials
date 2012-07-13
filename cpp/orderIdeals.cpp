@@ -285,18 +285,22 @@ bool isPureOSequence (const vector<int>& candidate){
   return false;
 }
 
-void testAlexRecipe(const vector<int>& a, const int rank, const int type) {
+vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const int type) {
   // Algorithm: for each permutation of the vector a 
   // enumerate all monomials in 
   vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
   Permutations P(a.size());
   vector < vector <int> > hVectors; // Will store the result
   do { // for each permutation:
+    vector<int> Pa(a.size());
+    for (unsigned int i=0; i<a.size(); i++){
+      Pa[i] = a[P(i)];
+    }
     // for each permutation the result will be a vector of monomials:
-    vector <Monomial*> currentMonomials;
+    vector <Monomial*> *currentMonomials =  new vector<Monomial*>;
     for (unsigned int i=0; i < allMons->size(); i++) {
       const vector<int>& pattern = *(allMons->at(i)->exponents);
-      vector<int>::const_iterator it = a.begin();
+      vector<int>::const_iterator it = Pa.begin();
       vector<int> realexpo(rank);
       for (unsigned int j = 0; j<pattern.size(); j++) {
 	int totake = pattern[j] + 1; // if the monomial contains a zero we have to take one.
@@ -308,17 +312,17 @@ void testAlexRecipe(const vector<int>& a, const int rank, const int type) {
 	realexpo[j] -= 1; // remember: a_i - 1
       }
       // printIntVector (realexpo);
-      currentMonomials.push_back(new Monomial(realexpo));
+      currentMonomials->push_back(new Monomial(realexpo));
     }
     // At this point we have completed the list of potential socle
     // monomials.  Now for every choice of type many we compute the
     // hVector and collect those:
-    Combinations C(type, currentMonomials.size());
+    Combinations C(type, currentMonomials->size());
     vector<Monomial*> *currentSocle;
     do {
       currentSocle = new vector<Monomial*>;
       for (int i=0; i<type; i++){
-	currentSocle->push_back (currentMonomials[C(i)]);
+	currentSocle->push_back ((*currentMonomials)[C(i)]);
       }
       vector<int> h = hVector(*currentSocle);
       if (!isPresent (hVectors, h)) {
