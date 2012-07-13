@@ -69,16 +69,17 @@ bool sameList (const vector<T*>& l1, const vector<T*>& l2) {
   return true;
 }
 
-// inline 
-// bool sameListsOfIntVectors (const vector< vector<int> >& l1, const vector< vector<int> >& l2) {
-//   for (unsigned int i=0; i<l1.size(); i++){
-//     if (!isPresent(l2, l1[i])) { return false; }
-//   }
-//   for (unsigned int i=0; i<l2.size(); i++){
-//     if (!isPresent(l1, l2[i])) { return false; }
-//   }
-//   return true;
-// }
+template <class T>
+inline
+bool sameList (const vector<T>& l1, const vector<T>& l2) {
+  for (unsigned int i=0; i<l1.size(); i++){
+    if (!isPresent(l2, l1[i])) { return false; }
+  }
+  for (unsigned int i=0; i<l2.size(); i++){
+    if (!isPresent(l1, l2[i])) { return false; }
+  }
+  return true;
+}
 
 inline
 bool isWeaklyIncreasing (const vector<int> *v) {
