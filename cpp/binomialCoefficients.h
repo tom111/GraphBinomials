@@ -5,7 +5,7 @@ inline unsigned long bC (int N, int k) {
   if (k<0) {return 0;};
   if (k>N) {return 0;};
   if ((N-k) < k) { k = N-k;}
-  int result = 1;
+  unsigned long result = 1;
   for (int i=1; i < k+1; i++){
     result *= N-k+i;
     result /= i;

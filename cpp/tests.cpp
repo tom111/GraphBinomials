@@ -159,6 +159,7 @@ void t6(){
     cout << h.at(i) << " ";
   }
   cout << endl;
+  assert (h == stringToVector ("1 2 3 3"));
 }
 
 void t6_2() {
@@ -181,28 +182,7 @@ void t6_2() {
   }
   cout << endl;
   cout.flush();
-}
-
-void t6_3(){
-  Monomial m2("3 3 1 0 7 1 4 1 3");
-  Monomial m3("3 7 1 3 0 3 1 4 1");  
-  Monomial m4("3 1 3 3 0 7 4 1 1");
-  Monomial m5("3 0 3 7 3 1 1 4 1");
-
-  vector<Monomial*> *start = new vector<Monomial*>;
-  start->push_back(&m2);
-  start->push_back(&m3);
-  start->push_back(&m4);
-  start->push_back(&m5);
-
-  cout << endl;
-  cout << "Computing a larger h-vector:" << endl;
-  vector<int> h = hVector(*start);
-  for (unsigned int i=0; i<h.size(); i++){
-    cout << h.at(i) << " ";
-  }
-  cout << endl;
-  cout.flush();
+  assert (h == stringToVector ("1 5 15 35 70 126 210 330 495 713 988 1320 1702 2120 2554 2974 3342 3620 3774 3784 3647 3373 2987 2526 2033 1552 1120 759 478 275 140 60 20 4"));
 }
 
 void t7(){
@@ -213,6 +193,7 @@ void t7(){
   }
   assert(binomialCoefficient(100,5)==75287520);
   assert(binomialCoefficient(104,5)==91962520);
+  assert(binomialCoefficient(136,7)==145944307080);
 }
 
 void t8 (){
@@ -249,7 +230,6 @@ int main(){
   t5();
   t6(); // approximately seven seconds
   t6_2(); // long ...
-  t6_3(); // very long ...
   t7();
   t8();
   t9();
