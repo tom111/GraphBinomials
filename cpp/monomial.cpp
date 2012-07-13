@@ -36,24 +36,15 @@ using namespace std;
 
 Monomial::Monomial (long llength) : length(llength) {
   // Create the monomial with zero exponents
-  exponents = new vector<int>;
-  for (int i=0; i<length; i++){ exponents->push_back(0); };
+  exponents = new vector<int>(length, 0);
 };
 
 Monomial::Monomial (long llength, const vector<int>& expo) : length(llength) {
-  exponents = new vector<int>;
-  for (int i=0; i < length; i++){
-    // length of expo is not confirmed
-    exponents->push_back(expo[i]);
-  }
+  exponents = new vector<int>(expo);
 };
 
 Monomial::Monomial (const vector<int>& expo) : length(expo.size()) {
-  exponents = new vector<int>;
-  for (int i=0; i < length; i++){
-    // length of expo is not confirmed
-    exponents->push_back(expo[i]);
-  }
+  exponents = new vector<int>(expo);
 }
 
 Monomial::Monomial (const string& s) {
