@@ -130,10 +130,7 @@ vector<int> hVector (const vector<Monomial*>& mons){
       // cout << "chose standard ";
       next = listBelow(*current);
     }
-    for (unsigned int i =0; i<current->size(); i++){
-      delete current->at(i);
-    }
-    delete current;
+    deleteVector (current);
     current = next;
     // cut-off if all monomials are exhausted:
     if (next->size() == numberOfMonomials){
@@ -141,10 +138,7 @@ vector<int> hVector (const vector<Monomial*>& mons){
       for (int i = d-1; i >= 0; i--){
 	result.push_back (binomialCoefficient(n-1+i,n-1));
       }
-      for (unsigned int i = 0; i < next->size();  i++ ){
-	delete next->at(i);
-      }
-      delete next;
+      deleteVector(next);
       break;
     }
   }
@@ -332,20 +326,15 @@ void testAlexRecipe(const vector<int>& a, const int rank, const int type) {
       }
       delete currentSocle;
     } while (C.next());
-    // Clean up
-    for (unsigned int i = 0; i<currentMonomials.size(); i++){
-      delete currentMonomials[i];
-    }
+    deleteVector (currentMonomials);
   } while (P.next());
-  for (unsigned int i = 0; i<allMons->size(); i++){
-    delete (*allMons)[i];
-  }
-  delete allMons;
-  cout << "List of h vectors that were found :" << endl;
-  for (unsigned int i = 0; i<hVectors.size(); i++){
-    printIntVector (hVectors[i]);
-  }
-  cout << endl;
+  deleteVector(allMons);
+  // cout << "List of h vectors that were found :" << endl;
+  // for (unsigned int i = 0; i<hVectors.size(); i++){
+  //   printIntVector (hVectors[i]);
+  // }
+  // cout << endl;
+  return hVectors;
 }
 
 
