@@ -341,6 +341,61 @@ vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const
   return hVectors;
 }
 
+bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate){
+  vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
+  Permutations P(a.size());  // Later: not all permutations are needed
+  // e.g. if there are duplicate entries in a -> keep a list of seen a-vectors
+  do { // for each permutation:
+    vector<int> Pa(a.size());
+    for (unsigned int i=0; i<a.size(); i++){
+      Pa[i] = a[P(i)];
+    }
+    // for each permutation the result will be a vector of monomials:
+    vector <Monomial*> *currentMonomials =  new vector<Monomial*>;
+    for (unsigned int i=0; i < allMons->size(); i++) {
+      const vector<int>& pattern = *(allMons->at(i)->exponents);
+      vector<int>::const_iterator it = Pa.begin();
+      vector<int> realexpo(rank);
+      for (unsigned int j = 0; j<pattern.size(); j++) {
+	int totake = pattern[j] + 1; // if the monomial contains a zero we have to take one.
+	while (totake > 0) {
+	  realexpo[j] += *it;
+	  it++;
+	  totake--;
+	}
+	realexpo[j] -= 1; // remember: a_i - 1
+      }
+      // printIntVector (realexpo);
+      currentMonomials->push_back(new Monomial(realexpo));
+    }
+    // At this point we have completed the list of potential socle
+    // monomials.  Now for every choice of type many we compute the
+    // hVector and collect those:
+    Combinations C(type, currentMonomials->size());
+    vector<Monomial*> *currentSocle;
+    do {
+      currentSocle = new vector<Monomial*>;
+      for (int i=0; i<type; i++){
+	currentSocle->push_back ((*currentMonomials)[C(i)]);
+      }
+      if (isCorrectHVector(*currentSocle, candidate)){
+	// done
+	cout << "Found a socle that does it:" << endl;
+	for (unsigned int i = 0; i<currentSocle->size();i++){
+	  printIntVector (*(currentSocle->at(i)->exponents));
+	}
+	delete currentSocle;
+	deleteVector (currentMonomials);
+	deleteVector(allMons);
+	return true;
+      }
+      delete currentSocle;
+    } while (C.next());
+    deleteVector (currentMonomials);
+  } while (P.next());
+  deleteVector(allMons);
+  return false;
+}
 
 void listOrderIdeals (const int degree, const int type, const int numvars, const vector<int>& hV){
   // Need all combinations of type many monomials in numvars variables

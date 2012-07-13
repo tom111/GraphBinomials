@@ -212,14 +212,18 @@ void t8 (){
 
 void t9() {
   Permutations P(4);
+  cout << "Permutations on four elements:" << endl;
   do {
     P.display();
   } while (P.next());
+  cout << endl;
 }
 
 void t10(){
   vector<int> a = stringToVector ("5 4 3 2 1");
-  testAlexRecipe (a, 3, 4);
+  vector< vector<int> > res = testAlexRecipe (a, 3, 4);
+  assert (isPureOSequenceAlexRecipe (a,3,4,res[res.size()-2]));
+  assert (isPureOSequenceAlexRecipe (a,3,4,stringToVector("1 3 6 10 15 20 24 27 27 24 18 11 4")));
 }
 
 int main(){

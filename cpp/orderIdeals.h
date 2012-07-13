@@ -40,6 +40,7 @@ vector<int> hVector (const vector<Monomial*>& mons);
 void enumeratePureOSequences (const int degree, const int type, const int numvars);
 bool isPureOSequence (const vector<int>& candidate);
 vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const int type);
+bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate);
 void listOrderIdeals (const int degree, const int type, const int numvars, const vector<int>& hV);
 
 // vector<Monomial*>* orderIdeal (const std::vector<Monomial*>& gens);
