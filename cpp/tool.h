@@ -30,10 +30,24 @@ void printIntVector (const vector<int>& v){
   cout << endl;
 }
 
+// TODO: Maybe use an iterator with std::find...
+
+template <class T>
 inline
-bool isPresent (const vector< vector<int> >& list, const vector<int>& element){
+bool isPresent (const vector<T*>& list, const T& element){
   for (unsigned int i=0; i<list.size(); i++){
-    if (element==(list[i])) {
+    if (element == *list[i] ) {
+      return true;
+    };
+  };
+  return false;
+};
+
+template <class T>
+inline
+bool isPresent (const vector<T>& list, const T& element){
+  for (unsigned int i=0; i<list.size(); i++){
+    if (element==list[i]) {
       return true;
     };
   };
@@ -41,9 +55,10 @@ bool isPresent (const vector< vector<int> >& list, const vector<int>& element){
 };
 
 // Todo, make templates:
+template <class T>
 inline
-bool sameListOfMonomials (const vector<Monomial*>& l1, const vector<Monomial*>& l2) {
-  // Check if two lists of monomials are the same by checking if each element
+bool sameList (const vector<T*>& l1, const vector<T*>& l2) {
+  // Check if two lists of T's are the same by checking if each element
   // of either list is present in the other list.
   for (unsigned int i=0; i<l1.size(); i++){
     if (!isPresent(l2, *l1[i])) { return false; }
@@ -54,16 +69,16 @@ bool sameListOfMonomials (const vector<Monomial*>& l1, const vector<Monomial*>& 
   return true;
 }
 
-inline 
-bool sameListsOfIntVectors (const vector< vector<int> >& l1, const vector< vector<int> >& l2) {
-  for (unsigned int i=0; i<l1.size(); i++){
-    if (!isPresent(l2, l1[i])) { return false; }
-  }
-  for (unsigned int i=0; i<l2.size(); i++){
-    if (!isPresent(l1, l2[i])) { return false; }
-  }
-  return true;
-}
+// inline 
+// bool sameListsOfIntVectors (const vector< vector<int> >& l1, const vector< vector<int> >& l2) {
+//   for (unsigned int i=0; i<l1.size(); i++){
+//     if (!isPresent(l2, l1[i])) { return false; }
+//   }
+//   for (unsigned int i=0; i<l2.size(); i++){
+//     if (!isPresent(l1, l2[i])) { return false; }
+//   }
+//   return true;
+// }
 
 inline
 bool isWeaklyIncreasing (const vector<int> *v) {

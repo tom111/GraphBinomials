@@ -125,10 +125,10 @@ void t4(){
   vector<Monomial*>* c3 = enumerateComponent(*c1->at(c1->size()-3), edges);
   vector<Monomial*>* c4 = enumerateComponent(*c1->at(c1->size()-22), edges);
 
-  assert (sameListOfMonomials (*c1,*c2));
-  assert (sameListOfMonomials (*c2,*c3));
-  assert (sameListOfMonomials (*c3,*c4));
-  assert (sameListOfMonomials (*c4,*c1));
+  assert (sameList (*c1,*c2));
+  assert (sameList (*c2,*c3));
+  assert (sameList (*c3,*c4));
+  assert (sameList (*c4,*c1));
 }
 
 void t5(){

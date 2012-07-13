@@ -1,28 +1,10 @@
 // Implementation of graphbinomials library
 
-#include "graphbinomial.h"
-
 #include <iostream>
 #include <vector>
 
-// TODO: Fix this double definition (and use an iterator with std::find)!
-bool isPresent (const vector<Monomial>& list, const Monomial& element){
-  for (unsigned int i=0; i<list.size(); i++){
-    if (element==(list[i])) {
-      return true;
-    };
-  };
-  return false;
-};
-
-bool isPresent (const vector<Monomial*>& list, const Monomial& element){
-  for (unsigned int i=0; i<list.size(); i++){
-    if (element==(*list[i])) {
-      return true;
-    };
-  };
-  return false;
-};
+#include "graphbinomial.h"
+#include "tool.h"
 
 vector<Monomial*>* generateNeighbours (const vector<Monomial>& base, const vector<Binomial>& steps) {
   // This function calls functions which allocate memory for new
