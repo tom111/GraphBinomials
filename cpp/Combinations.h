@@ -8,62 +8,62 @@
 // a class to iterate through m combinations out of n
 class Combinations
 {
-   public:
-      Combinations(int m, int n) : m_(m), n_(n), done_(0)
+ public:
+ Combinations(int m, int n) : m_(m), n_(n), done_(0)
+    {
+      if (m_ <= n_)
+	{
+	  combination_.resize(m_);
+	  for (int i = 0; i < m_; i++) combination_[i] = i;
+	}
+    }
+  
+  int next()
+  {
+    if (done_) return !done_;
+    int pos = m_ - 1;
+    combination_[pos]++;
+    while (combination_[pos] > (n_ - m_ + pos) && !done_)
       {
-         if (m_ <= n_)
-         {
-            combination_.resize(m_);
-            for (int i = 0; i < m_; i++) combination_[i] = i;
-         }
+	--pos;
+	combination_[pos]++;
+	for (int i = pos + 1; i < m_; i++)
+	  combination_[i] = combination_[i - 1] + 1;
+	if (combination_[0] > n_ - m_) done_ = 1;
       }
+    return !done_;
+  }
 
-      int next()
+  int operator() (int i) const
+  {
+    if (i < m_) return combination_[i];
+    return -1;
+  }
+  
+  unsigned int size() const
+  {
+    return combination_.size();
+  }
+  
+  int done() const
+  {
+    return done_;
+  }
+  
+  void display()
+  {
+    for (int i = 0; i < m_; i++)
       {
-         if (done_) return !done_;
-         int pos = m_ - 1;
-         combination_[pos]++;
-         while (combination_[pos] > (n_ - m_ + pos) && !done_)
-         {
-            --pos;
-            combination_[pos]++;
-            for (int i = pos + 1; i < m_; i++)
-               combination_[i] = combination_[i - 1] + 1;
-            if (combination_[0] > n_ - m_) done_ = 1;
-         }
-         return !done_;
+	std::cout << combination_[i] << " ";
       }
-
-      int operator() (int i)
-      {
-         if (i < m_) return combination_[i];
-         return -1;
-      }
-
-      int size()
-      {
-         return combination_.size();
-      }
-
-      int done()
-      {
-         return done_;
-      }
-
-      void display()
-      {
-         for (int i = 0; i < m_; i++)
-         {
-            std::cout << combination_[i] << " ";
-         }
-         std::cout << std::endl;
-      }
-
-   private:
-      int m_;
-      int n_;
-      int done_;
-      std::vector<int> combination_;
+    std::cout << std::endl;
+  }
+  
+ private:
+  int m_;
+  int n_;
+  int done_;
+  std::vector<int> combination_;
 };
 
 class KnuthCombinations
