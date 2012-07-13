@@ -40,6 +40,31 @@ bool isPresent (const vector< vector<int> >& list, const vector<int>& element){
   return false;
 };
 
+// Todo, make templates:
+inline
+bool sameListOfMonomials (const vector<Monomial*>& l1, const vector<Monomial*>& l2) {
+  // Check if two lists of monomials are the same by checking if each element
+  // of either list is present in the other list.
+  for (unsigned int i=0; i<l1.size(); i++){
+    if (!isPresent(l2, *l1[i])) { return false; }
+  }
+  for (unsigned int i=0; i<l2.size(); i++){
+    if (!isPresent(l1, *l2[i])) { return false; }
+  }
+  return true;
+}
+
+inline 
+bool sameListsOfIntVectors (const vector< vector<int> >& l1, const vector< vector<int> >& l2) {
+  for (unsigned int i=0; i<l1.size(); i++){
+    if (!isPresent(l2, l1[i])) { return false; }
+  }
+  for (unsigned int i=0; i<l2.size(); i++){
+    if (!isPresent(l1, l2[i])) { return false; }
+  }
+  return true;
+}
+
 inline
 bool isWeaklyIncreasing (const vector<int> *v) {
   for (unsigned int i=0; i<v->size()-1; i++){

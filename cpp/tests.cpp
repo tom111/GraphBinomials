@@ -16,18 +16,6 @@
 
 using namespace std;
 
-bool sameListOfMonomials (const vector<Monomial*>& l1, const vector<Monomial*>& l2) {
-  // Check if two lists of monomials are the same by checking if each element
-  // of either list is present in the other list.
-  for (unsigned int i=0; i<l1.size(); i++){
-    if (!isPresent(l2, *l1[i])) { return false; }
-  }
-  for (unsigned int i=0; i<l2.size(); i++){
-    if (!isPresent(l1, *l2[i])) { return false; }
-  }
-  return true;
-}
-
 void t1 () {
   // The simplest example: <x^2 - xy, xy - y^2>
   Monomial m1("2 0");
