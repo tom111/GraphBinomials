@@ -50,7 +50,7 @@ class Combinations
     return done_;
   }
   
-  void display()
+  void display() const
   {
     for (int i = 0; i < m_; i++)
       {
