@@ -24,6 +24,9 @@ alex:	alex.cpp $(SOURCES) $(HEADERS)
 matteo:	matteo.cpp $(SOURCES) $(HEADERS)
 	$(CXX) -Wall -O3 $(SOURCES) matteo.cpp -o matteo
 
+tom:	tom.cpp $(SOURCES) $(HEADERS)
+	$(CXX) -Wall -O3 $(SOURCES) tom.cpp -o tom
+
 play:	play.cpp $(SOURCES) $(HEADERS)
 	$(CXX) -Wall -O3 $(SOURCES) play.cpp -o play
 
