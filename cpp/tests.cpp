@@ -227,22 +227,28 @@ void t10(){
 }
 
 void t11(){
-  assert (isAdmissableCombination (stringToVector("1 2 3 4 10 11 12 13 14"), stringToVector("7 10 12")));
-  assert (!isAdmissableCombination (stringToVector("10 11 12 13 14"), stringToVector("7 10 12")));
+  // assert (isAdmissableCombination (stringToVector("1 2 3 4 10 11 12 13 14"), stringToVector("7 10 12")));
+  // assert (!isAdmissableCombination (stringToVector("10 11 12 13 14"), stringToVector("7 10 12")));
+}
+
+void t12(){
+  vector<int> h = stringToVector("1 3 6 10 15 20 24 27 27 24 18 11 4");
+  printIntVector (differenceVector (h));
 }
 
 int main(){
-  t1();
-  t2();
-  t3();
-  t4();
-  t5();
-  t6(); // approximately seven seconds
+  // t1();
+  // t2();
+  // t3();
+  // t4();
+  // t5();
+  // t6(); // approximately seven seconds
   // t6_2(); // long ...
-  t7();
-  t8();
-  t9();
-  t10();
-  t11();
+  // t7();
+  // t8();
+  // t9();
+  // t10();
+  // t11();
+  t12();
   return 0;
 }

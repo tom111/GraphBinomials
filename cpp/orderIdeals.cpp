@@ -150,7 +150,7 @@ vector<int> hVector (const vector<Monomial*>& mons){
   return realresult;
 }
 
-void enumeratePureOSequences (const int degree, const int type, const int numvars){
+vector< vector<int> > enumeratePureOSequences (const int degree, const int type, const int numvars){
   // Need all combinations of type many monomials in numvars variables
   // of given degree
   vector<Monomial*> *allMons = allMonomials(degree, numvars);
@@ -161,7 +161,7 @@ void enumeratePureOSequences (const int degree, const int type, const int numvar
   long counter = 0;
   do {
     // Informative output ?
-    if (counter++ % 10000 == 0){
+    if (counter++ % 100000 == 0){
       cout << "Checking socle number " << counter << " out of " << todo << endl;
     }
     currentSocle = new vector<Monomial*>;
@@ -195,6 +195,7 @@ void enumeratePureOSequences (const int degree, const int type, const int numvar
     cout << endl;
   }
   cout << "Total: " << result.size() << " sequences." << endl;
+  return result;
 }
 
 // helper for isPureOSequence
@@ -254,7 +255,7 @@ bool isPureOSequence (const vector<int>& candidate){
   long counter = 0;
   do {
     // Informative output ?
-    if (counter++ % 10000 == 0){
+    if (counter++ % 100000 == 0){
       cout << "Checking socle number " << counter << " out of " << todo << endl;
     }
     currentSocle = new vector<Monomial*>;
@@ -316,13 +317,14 @@ bool isAdmissableCombination (const Combinations& c, const vector<int>& rightBou
   // For speed the bins are precompupted with another function and passed to here
 
   // We assume that the combination c is sorted.
-  if (c(0) != 1) {return false;}
+  if (c(0) != 0) {return false;}
   for (unsigned int i = 1; i<rightBoundaries.size(); i++) {
     // Need to find one element in [ rightBoundaries[i-1] , rightBoundaries[i] ];
     bool intervalFound = false;
     for (unsigned int j=1; j<c.size(); j++){
-      if (c(j) > rightBoundaries[i-1] && c(j) <= rightBoundaries[i]) {
+      if ((c(j) > rightBoundaries[i-1]) && (c(j) <= rightBoundaries[i])) {
 	// Found an element in the interval: Continue with next interval.
+	// cout << "I claim that " << c(j) << " is in the interval (" << rightBoundaries[i-1] << "," << rightBoundaries[i] << "]"<<endl;
 	intervalFound = true;
 	break; // for loop over c
       }
@@ -331,6 +333,7 @@ bool isAdmissableCombination (const Combinations& c, const vector<int>& rightBou
       return false;
     }
   }
+  // c.display();
   return true;
 }
 
@@ -340,8 +343,10 @@ vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const
   vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
   sort (allMons->begin(), allMons->end(), lastExponentSmaller); // Needed for the AdmissableBlocking later
   vector<int> rightBoundaries; // See isAdmissableCombination for explanations
+  int sum=-1; // The first step will add 1 as a left boundary
   for (unsigned int i=rank-2; i <= a.size()-2; i++){
-    rightBoundaries.push_back(binomialCoefficient(i, rank-2));
+    sum+=binomialCoefficient(i, rank-2);
+    rightBoundaries.push_back(sum);
   }
   Permutations P(a.size());  // Todo: Make a list of already seen permutations
   vector < vector <int> > hVectors; // Will store the result
@@ -398,19 +403,36 @@ vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const
   return hVectors;
 }
 
+inline long factorial(int x) {
+  return (x == 1 ? x : x * factorial(x - 1));
+}
+
 bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate){
   vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
   sort (allMons->begin(), allMons->end(), lastExponentSmaller); // Needed for the AdmissableBlocking later
   vector<int> rightBoundaries; // See isAdmissableCombination for explanations
+  int sum=-1; // The first step will add 1 as a left boundary
   for (unsigned int i=rank-2; i <= a.size()-2; i++){
-    rightBoundaries.push_back(binomialCoefficient(i, rank-2));
+    sum+=binomialCoefficient(i, rank-2);
+    rightBoundaries.push_back(sum);
   }
   Permutations P(a.size());  // Later: not all permutations are needed
+  long permnumber = factorial (a.size());
+  long permcounter = 0;
+  vector< vector<int> > seenPermutations;
   // e.g. if there are duplicate entries in a -> keep a list of seen a-vectors
   do { // for each permutation:
+    permcounter++;
     vector<int> Pa(a.size());
     for (unsigned int i=0; i<a.size(); i++){
       Pa[i] = a[P(i)];
+    }
+    if (!isPresent(seenPermutations, Pa) ) {
+      seenPermutations.push_back(Pa);
+    } 
+    else {
+      cout << "Skipped a permutation" << endl;
+      continue;
     }
     // for each permutation the result will be a vector of monomials:
     vector <Monomial*> *currentMonomials =  new vector<Monomial*>;
@@ -438,8 +460,9 @@ bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int t
     unsigned long todoitems = binomialCoefficient(currentMonomials->size(),type);
     unsigned long counter = 0;
     do {
-      if (counter++ % 30000==0){
-	cout << "Now doing " << counter << " out of " << todoitems << " for this permutation." << endl;
+      if (counter++ % 100000==0){
+	cout << "Now doing " << counter << " out of " << todoitems << " for permutation no. " 
+	     << permcounter << " of " << permnumber << endl;
       }
       if (!isAdmissableCombination(C, rightBoundaries)) {
 	continue;
@@ -478,7 +501,7 @@ void listOrderIdeals (const int degree, const int type, const int numvars, const
   unsigned long counter = 0;
   do {
 //     // Informative output ?
-    if (counter++ % 10000 == 0){
+    if (counter++ % 100000 == 0){
       cout << "Checking socle number " << counter << " out of " << todo << endl;
     }
     currentSocle = new vector<Monomial*>;
@@ -504,4 +527,102 @@ void listOrderIdeals (const int degree, const int type, const int numvars, const
     cout << endl;
     cout.flush();
   }
+}
+
+vector<int> differenceVector (const vector<int>& h){
+  vector<int> result; 
+  result.push_back(1);
+  for (unsigned int i=0; i<h.size()-1; i++){
+    result.push_back (h[i+1] - h[i]);
+  }
+  return result;
+}
+
+bool differenceCondition (const vector<int>& h1, const vector<int>& h2){
+  // h1 is the longer vector and supposed to be bigger
+  vector<int> dh1 = differenceVector (h1);
+  vector<int> dh2 = differenceVector (h2);
+  for (unsigned int i =0; i< (h1.size()/2)+1; i++) {
+    if (dh1[i] < dh2[i]) return false;
+  }
+  return true;
+}
+
+bool sizeCondition (const vector<int>& h1, const vector<int>& h2){
+  for (unsigned int i =0; i< (h1.size()/2)+1; i++) {
+    if (h1[i] < h2[i]) return false;
+  }
+  return true;
+}
+
+vector<int> sumShifted (const vector<int>& h1, const vector<int>& h2){
+  assert(h1.size() == h2.size()+1);
+  vector<int> result;
+  result.push_back(h1[0]);
+  for (unsigned int i = 0; i<h2.size(); i++){
+    result.push_back(h1[i+1]+h2[i]);
+  }
+  return result;
+}
+
+struct counterexample{
+  vector<int> h1;
+  vector<int> h2;
+  vector<int> sum;
+};
+  
+void testAdditivityConjecture (const int e){
+  // Test Conjecture 3.1. in Stokes, Zanello, et al.
+  // 4 4 4 ran through
+  int degree = 5;
+  int type = 5;
+  int numvars = 4;
+  vector < vector <int> > longsequences = enumeratePureOSequences (degree, type, numvars);
+  vector < vector <int> > shortsequences = enumeratePureOSequences (degree-1, type, numvars);
+  int pos=0;
+  int neg=0;
+  vector <counterexample*> *ce = new vector<counterexample*>;
+  counterexample *cp;
+  for (unsigned int i=0; i<longsequences.size(); i++){
+    for (unsigned int j=0; j<shortsequences.size(); j++){
+      if (differenceCondition (longsequences[i],shortsequences[j]) && sizeCondition (longsequences[i], shortsequences[j])) {
+	if (isPureOSequence (sumShifted (longsequences[i], shortsequences[j]))){
+	  pos++;
+	  cout << "Number of examples: " << pos << endl;
+	  cout << "Number of counterexamples: " << neg << endl;
+	}
+	else {
+	  neg++;
+	  cout << "Number of counterexamples: " << neg << endl;
+	  cp = new counterexample;
+	  cp->h1 = longsequences[i];
+	  cp->h2 = shortsequences[j];
+	  cp->sum = sumShifted(longsequences[i], shortsequences[j]);
+	  ce->push_back(cp);
+	  cout << "Counterexample no " << neg <<":" << endl;
+	  cout << "First h-vector:" << endl;
+	  printIntVector(cp->h1);
+	  cout << "Second h-vector:" << endl;
+	  printIntVector(cp->h2);
+	  cout << "Shifted sum of h-vectors:" << endl;
+	  printIntVector(cp->sum);
+	  cout << "----------------";
+	  cout << endl;
+	}
+      }
+    }
+  }
+  for (unsigned int i=0; i< ce->size(); i++){
+    cout << "Counterexample no " << i+1 <<":" << endl;
+    cout << "First h-vector:" << endl;
+    printIntVector((*ce)[i]->h1);
+    cout << "Second h-vector:" << endl;
+    printIntVector((*ce)[i]->h2);
+    cout << "Shifted sum of h-vectors:" << endl;
+    printIntVector((*ce)[i]->sum);
+    cout << "----------------";
+    cout << endl;
+  }
+  // assert(differenceCondition (h1,h2));
+  // assert(isPureOSequence (sumShifted (h1, h2)));
 }

@@ -37,40 +37,14 @@ vector<Monomial*>* allMonomials (const int degree, const int numvars);
 
 vector<int> hVector (const vector<Monomial*>& mons);
 
-void enumeratePureOSequences (const int degree, const int type, const int numvars);
+vector < vector<int> > enumeratePureOSequences (const int degree, const int type, const int numvars);
 bool isPureOSequence (const vector<int>& candidate);
 vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const int type);
 bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate);
 void listOrderIdeals (const int degree, const int type, const int numvars, const vector<int>& hV);
-
-inline
-bool isAdmissableCombination (const vector<int>& c, const vector<int>& rightBoundaries) {
-  // We are looking at combinations in binom (p-d, d) = binom (p,d)
-  // Consider the equation:
-  // bin(p,d) = 1 + bin {d+1,d-1} + bin {d+2,d-1} + ... + bin (p-1,d-1)
-  // and bin the integers from 0 to bin(p,d) accordingly.
-  // A combination is admissiable if it contains one element from each bin
-
-  // For speed the bins are precompupted with another function and passed to here
-
-  // We assume that the combination c is sorted.
-  if (c[0] != 1) {return false;}
-  for (unsigned int i = 1; i<rightBoundaries.size(); i++) {
-    // Need to find one element in [ rightBoundaries[i-1] , rightBoundaries[i] ];
-    bool intervalFound = false;
-    for (unsigned int j=1; j<c.size(); j++){
-      if (c[j] > rightBoundaries[i-1] && c[j] <= rightBoundaries[i]) {
-	// Found an element in the interval: Continue with next interval.
-	intervalFound = true;
-	break; // for loop over c
-      }
-    } // If this for loop ever finishes without breaking, the interval was not represented!
-    if (!intervalFound) {
-      return false;
-    }
-  }
-  return true;
-}
+vector<int> differenceVector (const vector<int>& h);
+bool differenceCondition (const vector<int>& h1, const vector<int>& h2);
+void testAdditivityConjecture (const int e);
 
 // vector<Monomial*>* orderIdeal (const std::vector<Monomial*>& gens);
 
