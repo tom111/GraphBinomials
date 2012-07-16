@@ -435,7 +435,12 @@ bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int t
     // hVector and collect those:
     Combinations C(type, currentMonomials->size());
     vector<Monomial*> *currentSocle;
+    unsigned long todoitems = binomialCoefficient(currentMonomials->size(),type);
+    unsigned long counter = 0;
     do {
+      if (counter++ % 30000==0){
+	cout << "Now doing " << counter << " out of " << todoitems << " for this permutation." << endl;
+      }
       if (!isAdmissableCombination(C, rightBoundaries)) {
 	continue;
       }
