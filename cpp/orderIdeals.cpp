@@ -534,6 +534,7 @@ vector<int> differenceVector (const vector<int>& h){
   return result;
 }
 
+// Helper function for the additivity conjecture:
 bool differenceCondition (const vector<int>& h1, const vector<int>& h2){
   // h1 is the longer vector and supposed to be bigger
   vector<int> dh1 = differenceVector (h1);
@@ -544,6 +545,7 @@ bool differenceCondition (const vector<int>& h1, const vector<int>& h2){
   return true;
 }
 
+// Helper function for the additivity conjecture:
 bool sizeCondition (const vector<int>& h1, const vector<int>& h2){
   for (unsigned int i =0; i< (h1.size()/2)+1; i++) {
     if (h1[i] < h2[i]) return false;
@@ -551,6 +553,7 @@ bool sizeCondition (const vector<int>& h1, const vector<int>& h2){
   return true;
 }
 
+// Helper function for the additivity conjecture:
 vector<int> sumShifted (const vector<int>& h1, const vector<int>& h2){
   assert(h1.size() == h2.size()+1);
   vector<int> result;
@@ -567,12 +570,9 @@ struct counterexample{
   vector<int> sum;
 };
   
-void testAdditivityConjecture (const int e){
+void testAdditivityConjecture (const int degree, const int type, const int numvars){
   // Test Conjecture 3.1. in Stokes, Zanello, et al.
   // 4 4 4 ran through
-  int degree = 5;
-  int type = 5;
-  int numvars = 4;
   vector < vector <int> > longsequences = enumeratePureOSequences (degree, type, numvars);
   vector < vector <int> > shortsequences = enumeratePureOSequences (degree-1, type, numvars);
   int pos=0;
