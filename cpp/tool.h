@@ -30,6 +30,10 @@ void printIntVector (const vector<int>& v){
   cout << endl;
 }
 
+inline long factorial(int x) {
+  return (x == 1 ? x : x * factorial(x - 1));
+}
+
 // TODO: Maybe use an iterator with std::find...
 
 template <class T>

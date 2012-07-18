@@ -403,10 +403,6 @@ vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const
   return hVectors;
 }
 
-inline long factorial(int x) {
-  return (x == 1 ? x : x * factorial(x - 1));
-}
-
 bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate){
   vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
   sort (allMons->begin(), allMons->end(), lastExponentSmaller); // Needed for the AdmissableBlocking later
