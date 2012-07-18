@@ -24,18 +24,18 @@ class Permutations
     return next_permutation (permutation_.data(),permutation_.data()+m_);
   }
   
-  int operator() (int i)
+  int operator() (int i) const
   {
     if (i < m_) return permutation_[i];
     return -1;
   }
 
-  int size()
+  int size() const
   {
     return permutation_.size();
   }
 
-  void display()
+  void display() const
   {
     for (int i = 0; i < m_; i++)
       {
