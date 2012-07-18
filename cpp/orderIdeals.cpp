@@ -337,7 +337,7 @@ bool isAdmissableCombination (const Combinations& c, const vector<int>& rightBou
   return true;
 }
 
-vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const int type) {
+vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const int type, bool permute) {
   // Algorithm: for each permutation of the vector a 
   // enumerate all monomials in 
   vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
@@ -348,12 +348,26 @@ vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const
     sum+=binomialCoefficient(i, rank-2);
     rightBoundaries.push_back(sum);
   }
-  Permutations P(a.size());  // Todo: Make a list of already seen permutations
+  Permutations P(a.size());
+  vector< vector<int> > seenPermutations;
+  long permcounter = 0;
   vector < vector <int> > hVectors; // Will store the result
   do { // for each permutation:
+    // Break if we are not permuting
+    if ( (!permute) && (permcounter > 0) ) {
+      break;
+    }
+    permcounter++;
     vector<int> Pa(a.size());
     for (unsigned int i=0; i<a.size(); i++){
       Pa[i] = a[P(i)];
+    }
+    if (!isPresent(seenPermutations, Pa) ) {
+      seenPermutations.push_back(Pa);
+    } 
+    else {
+      cout << "Skipped a permutation" << endl;
+      continue;
     }
     // for each permutation the result will be a vector of monomials:
     vector <Monomial*> *currentMonomials =  new vector<Monomial*>;
@@ -403,7 +417,7 @@ vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const
   return hVectors;
 }
 
-bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate){
+bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate, bool permute){
   vector<Monomial*> *allMons = allMonomials(a.size()-rank, rank);
   sort (allMons->begin(), allMons->end(), lastExponentSmaller); // Needed for the AdmissableBlocking later
   vector<int> rightBoundaries; // See isAdmissableCombination for explanations
@@ -412,12 +426,16 @@ bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int t
     sum+=binomialCoefficient(i, rank-2);
     rightBoundaries.push_back(sum);
   }
-  Permutations P(a.size());  // Later: not all permutations are needed
+  Permutations P(a.size());
   long permnumber = factorial (a.size());
   long permcounter = 0;
   vector< vector<int> > seenPermutations;
   // e.g. if there are duplicate entries in a -> keep a list of seen a-vectors
   do { // for each permutation:
+    // Break if we are not permuting
+    if ( (!permute) && (permcounter > 0) ) {
+      return false;
+    }
     permcounter++;
     vector<int> Pa(a.size());
     for (unsigned int i=0; i<a.size(); i++){

@@ -55,10 +55,17 @@ void listOrderIdeals (const int degree, const int type, const int numvars, const
 
 // Enumerate pure O-sequences that come out of Alex' Constantinescu's recipe
 // for a given complication vector a
-vector< vector<int> > testAlexRecipe(const vector<int>& a, const int rank, const int type);
+vector< vector<int> > testAlexRecipe(const vector<int>& a, 
+				     const int rank, 
+				     const int type, 
+				     const bool permute=0);
 
 // Check Alex' Constantinescu's recipe with the shortcuts from isPureOSequnce
-bool isPureOSequenceAlexRecipe(const vector<int>& a, const int rank, const int type, const vector<int>& candidate);
+bool isPureOSequenceAlexRecipe(const vector<int>& a, 
+			       const int rank, 
+			       const int type, 
+			       const vector<int>& candidate, 
+			       const bool permute=0);
 
 // Compute the difference vector
 vector<int> differenceVector (const vector<int>& h);

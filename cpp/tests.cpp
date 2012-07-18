@@ -222,8 +222,9 @@ void t9() {
 void t10(){
   vector<int> a = stringToVector ("5 4 3 2 1");
   vector< vector<int> > res = testAlexRecipe (a, 3, 4);
-  assert (isPureOSequenceAlexRecipe (a,3,4,res[res.size()-2]));
-  assert (isPureOSequenceAlexRecipe (a,3,4,stringToVector("1 3 6 10 15 20 24 27 27 24 18 11 4")));
+  assert (isPureOSequenceAlexRecipe (a,3,4,res[res.size()-2], 0));
+  // For this to work we need to permute a
+  assert (isPureOSequenceAlexRecipe (a,3,4,stringToVector("1 3 6 10 15 20 24 27 27 24 18 11 4"), 1));
 }
 
 void t11(){
